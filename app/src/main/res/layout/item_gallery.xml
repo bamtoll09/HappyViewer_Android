@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:background="@drawable/shape_card"
+    android:elevation="4dp"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            >
+
+            <ImageView
+                android:id="@+id/image_gallery_thumbnail"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerCrop"
+                />
+
+            <TextView
+                android:id="@+id/text_gallery_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Android Studio"
+                android:textSize="20dp"
+                android:layout_toRightOf="@id/image_gallery_thumbnail"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_toRightOf="@id/image_gallery_thumbnail"
+                android:layout_below="@id/text_gallery_title"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sample text
+:asdf"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sample text
+:asdf"
+                    android:layout_alignParentRight="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sample text
+:asdf"
+                    android:layout_alignParentBottom="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sample text
+:asdf"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginHorizontal="8dp"
+            />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:columnCount="5"
+            android:useDefaultMargins="true"
+            >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_columnWeight="1"
+                android:text="TAG"
+                android:textColor="#fff"
+                android:background="@drawable/shape_tag"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_columnWeight="1"
+                android:text="TAG"
+                android:textColor="#fff"
+                android:background="@drawable/shape_tag"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_columnWeight="1"
+                android:text="TAG"
+                android:textColor="#fff"
+                android:background="@drawable/shape_tag"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_columnWeight="1"
+                android:text="TAG"
+                android:textColor="#fff"
+                android:background="@drawable/shape_tag"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_columnWeight="1"
+                android:text="TAG"
+                android:textColor="#fff"
+                android:background="@drawable/shape_tag"
+                />
+
+        </GridLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
