@@ -7,14 +7,20 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    lateinit var galleryAdapter: GalleryAdapter
+    lateinit var hiyobi: Elements
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +39,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        /*var text = ""
+        var galleryItem: Array<GalleryAdapter.GalleryItem>
+
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
                 super.onPostExecute(result)
-                textView.text = text
+                var urls: Array<String> = getAttributes(getElementChilds(hiyobi, "img"), "src")
+                var titles: Array<String> = getElementChilds(hiyobi, "b").eachText().toTypedArray()
+                galleryItem = Array(1) {GalleryAdapter.GalleryItem(urls[0], titles[0])}
+                galleryAdapter = GalleryAdapter(galleryItem)
+                galleryRecycler.adapter = galleryAdapter
+
+                Log.d("Result", galleryItem[0].thumbnailUrl)
+                Log.d("Result", galleryItem[0].title)
             }
 
             override fun doInBackground(vararg params: Void?): Any {
-                text = Jsoup.connect("https://hiyobi.me/list").get().toString()
+                hiyobi = Jsoup.connect("https://hiyobi.me/list").get().getElementsByClass("gallery-content")
                 return Any()
             }
-        }.execute()*/
+        }.execute()
+    }
+
+    fun getElementChilds(elements: Elements, cssQuery: String): Elements {
+        var elementList: ArrayList<Element> = ArrayList()
+
+        for (childElem: Element in elements) {
+            elementList.add(childElem.select(cssQuery).first())
+        }
+        return Elements(elementList)
+    }
+
+    fun getAttributes(elements: Elements, attr: String): Array<String> {
+        var stringList: ArrayList<String> = ArrayList()
+
+        for (elem: Element in elements) {
+            stringList.add(elem.attr(attr))
+        }
+        return stringList.toTypedArray()
     }
 
     override fun onBackPressed() {
