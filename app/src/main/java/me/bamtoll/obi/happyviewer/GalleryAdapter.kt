@@ -32,6 +32,4 @@ class GalleryAdapter(data: Array<GalleryItem>): RecyclerView.Adapter<GalleryAdap
         var thumbnailImage: ImageView = itemView.findViewById(R.id.image_gallery_thumbnail) as ImageView
         var titleText: TextView = itemView.findViewById(R.id.text_gallery_title) as TextView
     }
-
-    class GalleryItem(var thumbnailUrl: String, var title: String)
 }

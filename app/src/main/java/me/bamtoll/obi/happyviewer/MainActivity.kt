@@ -50,6 +50,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 galleryAdapter = GalleryAdapter(makeGalleryItems(urls, titles))
                 galleryRecycler.adapter = galleryAdapter
+
+
+                var infoElements: Elements = getElementChilds(hiyobi, "tbody")
+                var infoList: ArrayList<Elements> = ArrayList()
+                for (info: Element in infoElements) {
+                    infoList.add(info.select("tr"))
+                }
+
+                var infoTexts: ArrayList<Array<String>> = ArrayList()
+                for (infoItems: Elements in infoList) {
+                    infoTexts.add(infoItems.eachText().toTypedArray())
+                }
+                for (infoText: Array<String> in infoTexts) {
+                    for (info: String in infoText) {
+                        Log.d("info", info)
+                    }
+                }
             }
 
             override fun doInBackground(vararg params: Void?): Any {
@@ -77,11 +94,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return stringList.toTypedArray()
     }
 
-    fun makeGalleryItems(urls: Array<String>, titles: Array<String>): Array<GalleryAdapter.GalleryItem> {
-        var galleryItemList: ArrayList<GalleryAdapter.GalleryItem> = ArrayList()
+    fun makeGalleryItems(urls: Array<String>, titles: Array<String>): Array<GalleryItem> {
+        var galleryItemList: ArrayList<GalleryItem> = ArrayList()
 
         for (i in urls.indices) {
-            galleryItemList.add(GalleryAdapter.GalleryItem(urls[i], titles[i]))
+            galleryItemList.add(GalleryItem(urls[i], titles[i]))
         }
         return galleryItemList.toTypedArray()
     }
