@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -39,19 +40,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        var galleryItem: Array<GalleryAdapter.GalleryItem>
+        galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
 
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
                 super.onPostExecute(result)
                 var urls: Array<String> = getAttributes(getElementChilds(hiyobi, "img"), "src")
                 var titles: Array<String> = getElementChilds(hiyobi, "b").eachText().toTypedArray()
-                galleryItem = Array(1) {GalleryAdapter.GalleryItem(urls[0], titles[0])}
-                galleryAdapter = GalleryAdapter(galleryItem)
-                galleryRecycler.adapter = galleryAdapter
 
-                Log.d("Result", galleryItem[0].thumbnailUrl)
-                Log.d("Result", galleryItem[0].title)
+                galleryAdapter = GalleryAdapter(makeGalleryItems(urls, titles))
+                galleryRecycler.adapter = galleryAdapter
             }
 
             override fun doInBackground(vararg params: Void?): Any {
@@ -77,6 +75,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             stringList.add(elem.attr(attr))
         }
         return stringList.toTypedArray()
+    }
+
+    fun makeGalleryItems(urls: Array<String>, titles: Array<String>): Array<GalleryAdapter.GalleryItem> {
+        var galleryItemList: ArrayList<GalleryAdapter.GalleryItem> = ArrayList()
+
+        for (i in urls.indices) {
+            galleryItemList.add(GalleryAdapter.GalleryItem(urls[i], titles[i]))
+        }
+        return galleryItemList.toTypedArray()
     }
 
     override fun onBackPressed() {
