@@ -8,22 +8,47 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
+// import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.layout_piece.*
+import org.json.JSONArray
+import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
+import android.util.DisplayMetrics
+import com.squareup.picasso.Picasso
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var galleryAdapter: GalleryAdapter
     lateinit var hiyobi: Elements
 
+    lateinit var pieceAdapter: PieceAdapter
+    lateinit var piece: String
+    val PIECE_ENTRY = "https://hiyobi.me/data/"
+    val INHERENCE_CODE = "1172674"
+
+    companion object {
+        var WIDTH: Int = 0
+        fun CalcHeight(width: Int, height: Int): Int {
+            return (height * (WIDTH / width.toFloat())).toInt()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        WIDTH = displayMetrics.widthPixels
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -39,7 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
+        /*galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
 
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
@@ -58,7 +83,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 hiyobi = Jsoup.connect("https://hiyobi.me/list").get().getElementsByClass("gallery-content")
                 return Any()
             }
+        }.execute()*/
+
+        pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
+            override fun onFling(p0: Int, p1: Int): Boolean {
+                Log.d("SPEED", p0.toString() + "." + p1.toString())
+                if (Math.abs(p1) <= 3000)
+                    PieceLayoutManager.EXTRA_SPACE_RANGE = 1.0f
+                else
+                    PieceLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
+                return false
+            }
+        }
+        pieceRecycler.layoutManager = PieceLayoutManager(this)
+
+        object: AsyncTask<Void, Void, Any>() {
+            override fun onPostExecute(result: Any?) {
+                super.onPostExecute(result)
+
+                var jsonArray = JSONArray(piece)
+                var pieceUrls: List<String> = parsePieceNames(PIECE_ENTRY + INHERENCE_CODE + "/", jsonArray)
+                pieceAdapter = PieceAdapter(pieceUrls)
+                pieceRecycler.adapter = pieceAdapter
+            }
+
+            override fun doInBackground(vararg params: Void?): Any {
+                piece = Jsoup.connect(PIECE_ENTRY + "json/" + INHERENCE_CODE + "_list.json").ignoreContentType(true).execute().body()
+                return Any()
+            }
         }.execute()
+    }
+
+    fun parsePieceNames(basicUrl: String, jsonArray: JSONArray): List<String> {
+        var urls: ArrayList<String> = ArrayList()
+
+        for (i: Int in IntRange(0, jsonArray.length() - 1)) {
+            urls.add(basicUrl + (jsonArray[i] as JSONObject).get("name"))
+        }
+        return urls
     }
 
     fun getFirstChildElement(elements: Elements, cssQuery: String): Elements {
