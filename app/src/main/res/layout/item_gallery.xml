@@ -92,57 +92,13 @@
             />
 
         <GridLayout
+            android:id="@+id/layout_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:columnCount="5"
+            android:columnCount="3"
             android:useDefaultMargins="true"
             >
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_columnWeight="1"
-                android:text="TAG"
-                android:textColor="#fff"
-                android:background="@drawable/shape_tag"
-                />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_columnWeight="1"
-                android:text="TAG"
-                android:textColor="#fff"
-                android:background="@drawable/shape_tag"
-                />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_columnWeight="1"
-                android:text="TAG"
-                android:textColor="#fff"
-                android:background="@drawable/shape_tag"
-                />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_columnWeight="1"
-                android:text="TAG"
-                android:textColor="#fff"
-                android:background="@drawable/shape_tag"
-                />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_columnWeight="1"
-                android:text="TAG"
-                android:textColor="#fff"
-                android:background="@drawable/shape_tag"
-                />
 
         </GridLayout>
 

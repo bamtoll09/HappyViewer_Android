@@ -2,13 +2,12 @@ package me.bamtoll.obi.happyviewer
 
 import android.os.AsyncTask
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -45,28 +44,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
                 super.onPostExecute(result)
-                var urls: Array<String> = getAttributes(getElementChilds(hiyobi, "img"), "src")
-                var titles: Array<String> = getElementChilds(hiyobi, "b").eachText().toTypedArray()
+                var urls: Array<String> = getAttributes(getFirstChildElement(hiyobi, "img"), "src")
+                var titles: Array<String> = getFirstChildElement(hiyobi, "b").eachText().toTypedArray()
 
-                galleryAdapter = GalleryAdapter(makeGalleryItems(urls, titles))
+                var infoElemsList: List<Elements> = getChildElements(getFirstChildElement(hiyobi, "tbody"), "tr")
+                var infos: Array<GalleryItem.InfoItem> = makeInfoItems(infoElemsList)
+
+                galleryAdapter = GalleryAdapter(makeGalleryItems(urls, titles, infos))
                 galleryRecycler.adapter = galleryAdapter
-
-
-                var infoElements: Elements = getElementChilds(hiyobi, "tbody")
-                var infoList: ArrayList<Elements> = ArrayList()
-                for (info: Element in infoElements) {
-                    infoList.add(info.select("tr"))
-                }
-
-                var infoTexts: ArrayList<Array<String>> = ArrayList()
-                for (infoItems: Elements in infoList) {
-                    infoTexts.add(infoItems.eachText().toTypedArray())
-                }
-                for (infoText: Array<String> in infoTexts) {
-                    for (info: String in infoText) {
-                        Log.d("info", info)
-                    }
-                }
             }
 
             override fun doInBackground(vararg params: Void?): Any {
@@ -76,13 +61,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }.execute()
     }
 
-    fun getElementChilds(elements: Elements, cssQuery: String): Elements {
+    fun getFirstChildElement(elements: Elements, cssQuery: String): Elements {
         var elementList: ArrayList<Element> = ArrayList()
 
         for (childElem: Element in elements) {
             elementList.add(childElem.select(cssQuery).first())
         }
         return Elements(elementList)
+    }
+
+    /*fun getSecondChildElement(elements: Elements, cssQuery: String): Elements {
+        var elementList: ArrayList<Element> = ArrayList()
+
+        for (childElem: Element in elements) {
+            elementList.add(childElem.select(cssQuery)[1])
+        }
+        return Elements(elementList)
+    }*/
+
+    fun getChildElements(elements: Elements, cssQuery: String): List<Elements> {
+        var elementsList: ArrayList<Elements> = ArrayList()
+
+        for (childElem: Element in elements) {
+            elementsList.add(childElem.select(cssQuery))
+        }
+        return elementsList
     }
 
     fun getAttributes(elements: Elements, attr: String): Array<String> {
@@ -94,13 +97,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return stringList.toTypedArray()
     }
 
-    fun makeGalleryItems(urls: Array<String>, titles: Array<String>): Array<GalleryItem> {
+    fun makeGalleryItems(urls: Array<String>, titles: Array<String>, infos: Array<GalleryItem.InfoItem>): Array<GalleryItem> {
         var galleryItemList: ArrayList<GalleryItem> = ArrayList()
 
         for (i in urls.indices) {
-            galleryItemList.add(GalleryItem(urls[i], titles[i]))
+            galleryItemList.add(GalleryItem(urls[i], titles[i], infos[i]))
         }
         return galleryItemList.toTypedArray()
+    }
+
+    fun makeInfoItems(infoElemsList: List<Elements>): Array<GalleryItem.InfoItem> {
+        var infoItemList: ArrayList<GalleryItem.InfoItem> = ArrayList()
+
+        var artist = ""
+        var character = ""
+        var series = ""
+        var type = ""
+        var tag: List<String>? = null
+
+        for (infoElems: Elements in infoElemsList) {
+            for (infoElem: Element in infoElems) {
+                var infoComp: Elements = infoElem.select("td")
+
+                when (infoComp[0].text().slice(IntRange(0, 1))) {
+                    "작가" -> artist = infoComp[1].text()
+                    "캐릭" -> character = infoComp[1].text()
+                    "원작" -> series = infoComp[1].text()
+                    "장르" -> type = infoComp[1].text()
+                    "태그" -> tag = infoComp[1].select("a").eachText()
+                }
+            }
+            infoItemList.add(GalleryItem.InfoItem(artist, character, series, type, tag))
+        }
+
+        return infoItemList.toTypedArray()
     }
 
     override fun onBackPressed() {
