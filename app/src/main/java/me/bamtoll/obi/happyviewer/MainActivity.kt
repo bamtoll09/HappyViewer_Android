@@ -14,15 +14,14 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-// import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.layout_piece.*
+import kotlinx.android.synthetic.main.content_main.*
+//import kotlinx.android.synthetic.main.layout_piece.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import android.util.DisplayMetrics
-import com.squareup.picasso.Picasso
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -64,7 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        /*galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
+        galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
 
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
@@ -83,9 +82,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 hiyobi = Jsoup.connect("https://hiyobi.me/list").get().getElementsByClass("gallery-content")
                 return Any()
             }
-        }.execute()*/
+        }.execute()
 
-        pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
+        /*pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
             override fun onFling(p0: Int, p1: Int): Boolean {
                 Log.d("SPEED", p0.toString() + "." + p1.toString())
                 if (Math.abs(p1) <= 3000)
@@ -111,7 +110,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 piece = Jsoup.connect(PIECE_ENTRY + "json/" + INHERENCE_CODE + "_list.json").ignoreContentType(true).execute().body()
                 return Any()
             }
-        }.execute()
+        }.execute()*/
     }
 
     fun parsePieceNames(basicUrl: String, jsonArray: JSONArray): List<String> {
