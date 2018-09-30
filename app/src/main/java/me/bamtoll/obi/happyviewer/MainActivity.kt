@@ -8,20 +8,19 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
+import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
+import com.squareup.picasso.OkHttp3Downloader
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
-//import kotlinx.android.synthetic.main.layout_piece.*
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.android.synthetic.main.layout_gallery.*
+import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter
+import me.bamtoll.obi.happyviewer.Gallery.GalleryItem
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import android.util.DisplayMetrics
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -29,16 +28,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var galleryAdapter: GalleryAdapter
     lateinit var hiyobi: Elements
 
-    lateinit var pieceAdapter: PieceAdapter
-    lateinit var piece: String
-    val PIECE_ENTRY = "https://hiyobi.me/data/"
-    val INHERENCE_CODE = "1172674"
-
     companion object {
         var WIDTH: Int = 0
-        fun CalcHeight(width: Int, height: Int): Int {
-            return (height * (WIDTH / width.toFloat())).toInt()
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +39,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         WIDTH = displayMetrics.widthPixels
 
+        val builder = Picasso.Builder(this)
+        builder.downloader(OkHttp3Downloader(this, Integer.MAX_VALUE.toLong()))
+        val built = builder.build()
+        built.setIndicatorsEnabled(true)
+        built.isLoggingEnabled = true
+        Picasso.setSingletonInstance(built)
+
         setContentView(R.layout.activity_main)
+        layoutInflater.inflate(R.layout.layout_gallery, findViewById(R.id.layout_main),true)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
@@ -68,13 +67,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
                 super.onPostExecute(result)
-                var urls: Array<String> = getAttributes(getFirstChildElement(hiyobi, "img"), "src")
+                var codes: Array<String> = getGalleryCode(getFirstChildElement(hiyobi, "img"), "src")
                 var titles: Array<String> = getFirstChildElement(hiyobi, "b").eachText().toTypedArray()
 
                 var infoElemsList: List<Elements> = getChildElements(getFirstChildElement(hiyobi, "tbody"), "tr")
                 var infos: Array<GalleryItem.InfoItem> = makeInfoItems(infoElemsList)
 
-                galleryAdapter = GalleryAdapter(makeGalleryItems(urls, titles, infos))
+                galleryAdapter = GalleryAdapter(makeGalleryItems(codes, titles, infos))
                 galleryRecycler.adapter = galleryAdapter
             }
 
@@ -83,43 +82,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return Any()
             }
         }.execute()
-
-        /*pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
-            override fun onFling(p0: Int, p1: Int): Boolean {
-                Log.d("SPEED", p0.toString() + "." + p1.toString())
-                if (Math.abs(p1) <= 3000)
-                    PieceLayoutManager.EXTRA_SPACE_RANGE = 1.0f
-                else
-                    PieceLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
-                return false
-            }
-        }
-        pieceRecycler.layoutManager = PieceLayoutManager(this)
-
-        object: AsyncTask<Void, Void, Any>() {
-            override fun onPostExecute(result: Any?) {
-                super.onPostExecute(result)
-
-                var jsonArray = JSONArray(piece)
-                var pieceUrls: List<String> = parsePieceNames(PIECE_ENTRY + INHERENCE_CODE + "/", jsonArray)
-                pieceAdapter = PieceAdapter(pieceUrls)
-                pieceRecycler.adapter = pieceAdapter
-            }
-
-            override fun doInBackground(vararg params: Void?): Any {
-                piece = Jsoup.connect(PIECE_ENTRY + "json/" + INHERENCE_CODE + "_list.json").ignoreContentType(true).execute().body()
-                return Any()
-            }
-        }.execute()*/
-    }
-
-    fun parsePieceNames(basicUrl: String, jsonArray: JSONArray): List<String> {
-        var urls: ArrayList<String> = ArrayList()
-
-        for (i: Int in IntRange(0, jsonArray.length() - 1)) {
-            urls.add(basicUrl + (jsonArray[i] as JSONObject).get("name"))
-        }
-        return urls
     }
 
     fun getFirstChildElement(elements: Elements, cssQuery: String): Elements {
@@ -154,6 +116,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         for (elem: Element in elements) {
             stringList.add(elem.attr(attr))
+        }
+        return stringList.toTypedArray()
+    }
+
+    fun getGalleryCode(elements: Elements, attr: String): Array<String> {
+        var stringList: ArrayList<String> = ArrayList()
+
+        for (elem: Element in elements) {
+            stringList.add(elem.attr(attr).slice(IntRange(24, 30)))
         }
         return stringList.toTypedArray()
     }

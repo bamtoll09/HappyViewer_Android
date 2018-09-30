@@ -1,4 +1,4 @@
-package me.bamtoll.obi.happyviewer
+package me.bamtoll.obi.happyviewer.Piece
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

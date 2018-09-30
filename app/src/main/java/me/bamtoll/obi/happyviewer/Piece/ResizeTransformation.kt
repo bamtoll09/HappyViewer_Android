@@ -1,8 +1,9 @@
-package me.bamtoll.obi.happyviewer
+package me.bamtoll.obi.happyviewer.Piece
 
 import android.graphics.Bitmap
 import com.squareup.picasso.Transformation
 import android.graphics.Matrix
+import me.bamtoll.obi.happyviewer.MainActivity
 
 class ResizeTransformation: Transformation {
     override fun key(): String {

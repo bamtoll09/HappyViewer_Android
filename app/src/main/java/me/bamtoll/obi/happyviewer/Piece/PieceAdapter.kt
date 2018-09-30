@@ -1,6 +1,6 @@
-package me.bamtoll.obi.happyviewer
+package me.bamtoll.obi.happyviewer.Piece
 
-import android.app.PendingIntent.getActivity
+import android.opengl.Visibility
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,24 +12,15 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
+import me.bamtoll.obi.happyviewer.R
 import java.lang.Exception
 
 class PieceAdapter(data: List<String>): RecyclerView.Adapter<PieceAdapter.ViewHolder>() {
 
     var mData: List<String> = data
-    var mNum = 0
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-
-        if (mNum == 0) {
-            val builder = Picasso.Builder(p0.context)
-            builder.downloader(OkHttp3Downloader(p0.context, Integer.MAX_VALUE.toLong()))
-            val built = builder.build()
-            built.setIndicatorsEnabled(true)
-            built.isLoggingEnabled = true
-            Picasso.setSingletonInstance(built)
-            mNum = 1
-        }
+        Log.d("PIECE", "Drawing")
 
         return ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_piece, p0, false))
     }
@@ -39,7 +30,8 @@ class PieceAdapter(data: List<String>): RecyclerView.Adapter<PieceAdapter.ViewHo
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.numText.text = p1.plus(1).toString()
+        // p0.numText.text = p1.plus(1).toString()
+        p0.numText.visibility = View.GONE
         Picasso.get().load(mData[p1]).priority(Picasso.Priority.HIGH).transform(ResizeTransformation())
                 .networkPolicy(NetworkPolicy.OFFLINE).noFade().placeholder(R.mipmap.ic_launcher).into(
                         p0.pieceImage, object: Callback {

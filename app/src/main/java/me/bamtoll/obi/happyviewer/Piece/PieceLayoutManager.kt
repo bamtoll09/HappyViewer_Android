@@ -1,12 +1,8 @@
-package me.bamtoll.obi.happyviewer
+package me.bamtoll.obi.happyviewer.Piece
 
 import android.content.Context
-import android.graphics.PointF
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSmoothScroller
 import android.support.v7.widget.RecyclerView
-import android.util.DisplayMetrics
-import android.util.Log
 
 class PieceLayoutManager(context: Context): LinearLayoutManager(context) {
 
