@@ -36,7 +36,7 @@ class PieceAdapter(data: List<String>): RecyclerView.Adapter<PieceAdapter.ViewHo
         p0.numText.visibility = View.GONE
         Picasso.get().load(mData[p1]).priority(Picasso.Priority.HIGH).transform(ResizeTransformation())
                 .networkPolicy(NetworkPolicy.OFFLINE)
-                .noFade().placeholder(R.mipmap.ic_launcher).into(
+                .noFade().placeholder(R.drawable.ic_loop_black_24dp).into(
                         p0.pieceImage, object: Callback {
                             override fun onSuccess() {}
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Gallery
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +28,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     lateinit var galleryAdapter: GalleryAdapter
     lateinit var hiyobi: Elements
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     companion object {
         var WIDTH: Int = 0
         var HEIGHT: Int = 0
-        var PAGE = 1
+        var PAGE = 0
         var bool = false
     }
 
@@ -73,28 +75,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         refreshLayout.setColorSchemeResources(R.color.red, R.color.green, R.color.blue)
+        refreshLayout.setOnRefreshListener(this)
+
         galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
         galleryRecycler.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
-        object: AsyncTask<Void, Void, Any>() {
-            override fun onPostExecute(result: Any?) {
-                super.onPostExecute(result)
-                var codes: Array<String> = getGalleryCode(getFirstChildElement(hiyobi, "img"), "src")
-                var titles: Array<String> = getFirstChildElement(hiyobi, "b").eachText().toTypedArray()
-                // size: 15
+        galleryAdapter = GalleryAdapter(arrayListOf(), this@MainActivity)
+        galleryRecycler.adapter = galleryAdapter
 
-                var infoElemsList: List<Elements> = getChildElements(getFirstChildElement(hiyobi, "tbody"), "tr")
-                var infos: Array<GalleryItem.InfoItem> = makeInfoItems(infoElemsList)
-
-                galleryAdapter = GalleryAdapter(makeGalleryItems(codes, titles, infos), this@MainActivity)
-                galleryRecycler.adapter = galleryAdapter
-            }
-
-            override fun doInBackground(vararg params: Void?): Any {
-                hiyobi = Jsoup.connect("https://hiyobi.me/list").get().getElementsByClass("gallery-content")
-                return Any()
-            }
-        }.execute()
+        loadPage(true)
     }
 
     fun getFirstChildElement(elements: Elements, cssQuery: String): Elements {
@@ -178,9 +167,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return infoItemList.toTypedArray()
     }
 
-    fun loadPage() {
-        Log.d("LOADPAGE", "Loading")
-        PAGE++
+    fun loadPage(init: Boolean) {
+        if (init)
+            PAGE = 1
+        else
+            PAGE++
+
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
                 super.onPostExecute(result)
@@ -191,7 +183,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var infoElemsList: List<Elements> = getChildElements(getFirstChildElement(hiyobi, "tbody"), "tr")
                 var infos: Array<GalleryItem.InfoItem> = makeInfoItems(infoElemsList)
 
-                (galleryRecycler.adapter as GalleryAdapter).addData(makeGalleryItems(codes, titles, infos))
+                if (init) {
+                    galleryAdapter.removeAll()
+                    galleryAdapter.addData(makeGalleryItems(codes, titles, infos))
+                    refreshLayout.isRefreshing = false
+                }
+                else
+                    galleryAdapter.addData(makeGalleryItems(codes, titles, infos))
             }
 
             override fun doInBackground(vararg params: Void?): Any {
@@ -199,6 +197,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return Any()
             }
         }.execute()
+    }
+
+    override fun onRefresh() {
+        loadPage(true)
     }
 
     override fun onBackPressed() {

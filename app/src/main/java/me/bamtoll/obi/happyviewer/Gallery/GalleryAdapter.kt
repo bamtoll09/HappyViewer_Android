@@ -34,6 +34,11 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
         notifyDataSetChanged()
     }
 
+    fun removeAll() {
+        mData.removeAll(mData)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         var layout: Int = 0
         when (p1) {
@@ -67,7 +72,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
             }
             VIEW_FOOTER -> {
                 p0.progressBar.visibility = View.VISIBLE
-                mainActivity.loadPage()
+                mainActivity.loadPage(false)
             }
         }
     }
