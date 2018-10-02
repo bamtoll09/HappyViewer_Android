@@ -11,7 +11,7 @@ class PieceLayoutManager(context: Context): LinearLayoutManager(context) {
     }
 
     override fun getExtraLayoutSpace(state: RecyclerView.State?): Int {
-        return (1200 * EXTRA_SPACE_RANGE).toInt()
+        return (2000 * EXTRA_SPACE_RANGE).toInt()
     }
 
 }

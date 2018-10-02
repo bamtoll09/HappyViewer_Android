@@ -8,11 +8,9 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.layout_piece.*
 import me.bamtoll.obi.happyviewer.Piece.PieceAdapter
 import me.bamtoll.obi.happyviewer.Piece.PieceLayoutManager
@@ -28,21 +26,7 @@ class PieceActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        layoutInflater.inflate(R.layout.layout_piece, findViewById(R.id.layout_main),true)
-        setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
-
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        nav_view.setNavigationItemSelectedListener(this)
+        setContentView(R.layout.layout_piece)
 
         pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
             override fun onFling(p0: Int, p1: Int): Boolean {

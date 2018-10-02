@@ -8,7 +8,9 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.squareup.picasso.OkHttp3Downloader
@@ -18,6 +20,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_gallery.*
 import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter
 import me.bamtoll.obi.happyviewer.Gallery.GalleryItem
+import me.bamtoll.obi.happyviewer.R.id.galleryRecycler
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
@@ -30,21 +33,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         var WIDTH: Int = 0
+        var HEIGHT: Int = 0
+        var PAGE = 1
+        var bool = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (!bool) {
+            val builder = Picasso.Builder(this)
+            builder.downloader(OkHttp3Downloader(this, Integer.MAX_VALUE.toLong()))
+            val built = builder.build()
+            built.setIndicatorsEnabled(true) // left top colored
+            built.isLoggingEnabled = true
+            Picasso.setSingletonInstance(built)
+            bool = true
+        }
+
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         WIDTH = displayMetrics.widthPixels
-
-        val builder = Picasso.Builder(this)
-        builder.downloader(OkHttp3Downloader(this, Integer.MAX_VALUE.toLong()))
-        val built = builder.build()
-        built.setIndicatorsEnabled(true)
-        built.isLoggingEnabled = true
-        Picasso.setSingletonInstance(built)
+        HEIGHT = displayMetrics.heightPixels
 
         setContentView(R.layout.activity_main)
         layoutInflater.inflate(R.layout.layout_gallery, findViewById(R.id.layout_main),true)
@@ -62,18 +72,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
+        refreshLayout.setColorSchemeResources(R.color.red, R.color.green, R.color.blue)
         galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
+        galleryRecycler.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
         object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
                 super.onPostExecute(result)
                 var codes: Array<String> = getGalleryCode(getFirstChildElement(hiyobi, "img"), "src")
                 var titles: Array<String> = getFirstChildElement(hiyobi, "b").eachText().toTypedArray()
+                // size: 15
 
                 var infoElemsList: List<Elements> = getChildElements(getFirstChildElement(hiyobi, "tbody"), "tr")
                 var infos: Array<GalleryItem.InfoItem> = makeInfoItems(infoElemsList)
 
-                galleryAdapter = GalleryAdapter(makeGalleryItems(codes, titles, infos))
+                galleryAdapter = GalleryAdapter(makeGalleryItems(codes, titles, infos), this@MainActivity)
                 galleryRecycler.adapter = galleryAdapter
             }
 
@@ -129,13 +142,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return stringList.toTypedArray()
     }
 
-    fun makeGalleryItems(urls: Array<String>, titles: Array<String>, infos: Array<GalleryItem.InfoItem>): Array<GalleryItem> {
+    fun makeGalleryItems(urls: Array<String>, titles: Array<String>, infos: Array<GalleryItem.InfoItem>): List<GalleryItem> {
         var galleryItemList: ArrayList<GalleryItem> = ArrayList()
 
         for (i in urls.indices) {
             galleryItemList.add(GalleryItem(urls[i], titles[i], infos[i]))
         }
-        return galleryItemList.toTypedArray()
+        return galleryItemList
     }
 
     fun makeInfoItems(infoElemsList: List<Elements>): Array<GalleryItem.InfoItem> {
@@ -163,6 +176,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         return infoItemList.toTypedArray()
+    }
+
+    fun loadPage() {
+        Log.d("LOADPAGE", "Loading")
+        PAGE++
+        object: AsyncTask<Void, Void, Any>() {
+            override fun onPostExecute(result: Any?) {
+                super.onPostExecute(result)
+                var codes: Array<String> = getGalleryCode(getFirstChildElement(hiyobi, "img"), "src")
+                var titles: Array<String> = getFirstChildElement(hiyobi, "b").eachText().toTypedArray()
+                // size: 15
+
+                var infoElemsList: List<Elements> = getChildElements(getFirstChildElement(hiyobi, "tbody"), "tr")
+                var infos: Array<GalleryItem.InfoItem> = makeInfoItems(infoElemsList)
+
+                (galleryRecycler.adapter as GalleryAdapter).addData(makeGalleryItems(codes, titles, infos))
+            }
+
+            override fun doInBackground(vararg params: Void?): Any {
+                hiyobi = Jsoup.connect("https://hiyobi.me/list/".plus(PAGE)).get().getElementsByClass("gallery-content")
+                return Any()
+            }
+        }.execute()
     }
 
     override fun onBackPressed() {

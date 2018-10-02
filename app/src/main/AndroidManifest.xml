@@ -25,7 +25,7 @@
         <activity
             android:name=".PieceActivity"
             android:label="ASDF"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.FullScreen">
         </activity>
     </application>
 
