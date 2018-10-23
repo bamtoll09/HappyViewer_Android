@@ -19,7 +19,12 @@ import me.bamtoll.obi.happyviewer.TagButton
 
 class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
-    private var mData: ArrayList<GalleryItem> = data as ArrayList<GalleryItem>
+    private var mData: ArrayList<GalleryItem> = arrayListOf(
+            GalleryItem("/assets/mono7/", "Ane Naru Mono 7",
+                    GalleryItem.InfoItem("Pochi.", "", "Ane Naru Mono", "Doujinshi", listOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"))
+            )
+    )
+    /*data as ArrayList<GalleryItem>*/
     private val mainActivity = activity
 
     companion object {
@@ -51,7 +56,8 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         when (p0.viewType) {
             VIEW_CONTENT -> {
-                Picasso.get().load(THUMBNAIL_URL + mData[p1].inherenceCode + IMAGE_FORMT).fit().placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
+//                Picasso.get().load(THUMBNAIL_URL + mData[p1].inherenceCode + IMAGE_FORMT).fit().placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
+                Picasso.get().load("file:///android_asset/mono7/a1.jpeg").fit().placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
                 p0.titleText.text = mData[p1].title
                 p0.artistText.text = "작가: ".plus(mData[p1].infoItem.artist)
                 p0.characterText.text = "캐릭: ".plus(mData[p1].infoItem.character)
@@ -66,24 +72,24 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                     }
                 }
 
-                p0.itemView.setOnClickListener { v ->
+                /*p0.itemView.setOnClickListener { v ->
                     Log.d("AsDf", mData[p1].inherenceCode + " " + p1)
                     val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.putExtra("inherence_code", mData[p1].inherenceCode)
                     v.context.applicationContext.startActivity(intent)
-                }
+                }*/
             }
-            VIEW_FOOTER -> {
+            /*VIEW_FOOTER -> {
                 p0.progressBar.visibility = View.VISIBLE
                 mainActivity.loadPage(false)
-            }
+            }*/
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == mData.size - mData.size % 15)
-            return VIEW_FOOTER
+        /*if (position == mData.size - mData.size % 15)
+            return VIEW_FOOTER*/
 
         return VIEW_CONTENT
     }
@@ -91,20 +97,21 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
 
-        when (holder.viewType) {
+        /*when (holder.viewType) {
             VIEW_CONTENT -> {
                 holder.tagLayout.removeAllViews()
             }
             VIEW_FOOTER -> {
                 holder.progressBar.visibility = View.GONE
             }
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {
-        val revision = mData.size % 15
+        /*val revision = mData.size % 15
 
-        return (mData.size - revision + VIEW_FOOTER)
+        return (mData.size - revision + VIEW_FOOTER)*/
+        return 1
     }
 
     class ViewHolder(view: View, viewType: Int): RecyclerView.ViewHolder(view) {

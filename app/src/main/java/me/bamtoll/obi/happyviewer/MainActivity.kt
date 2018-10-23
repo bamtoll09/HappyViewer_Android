@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_gallery.*
 import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter
 import me.bamtoll.obi.happyviewer.Gallery.GalleryItem
+import me.bamtoll.obi.happyviewer.R.id.drawer_layout
 import me.bamtoll.obi.happyviewer.R.id.galleryRecycler
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         galleryAdapter = GalleryAdapter(arrayListOf(), this@MainActivity)
         galleryRecycler.adapter = galleryAdapter
 
-        loadPage(true)
+        // loadPage(true)
     }
 
     fun getFirstChildElement(elements: Elements, cssQuery: String): Elements {
@@ -193,7 +194,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             override fun doInBackground(vararg params: Void?): Any {
-                hiyobi = Jsoup.connect("https://hiyobi.me/list/".plus(PAGE)).get().getElementsByClass("gallery-content")
+                hiyobi = Jsoup.connect("https://hiyobi.me/list/".plus(PAGE))
+                        .timeout(30000).ignoreHttpErrors(true)
+                        .followRedirects(true)
+                        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+                        .header("accept-encoding", "gzip, deflate, br")
+                        .header("accept-language", "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3")
+                        .header("user-agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0")
+                        .header("upgrade-insecure-requests", "1")
+                        .get().getElementsByClass("gallery-content")
                 return Any()
             }
         }.execute()
