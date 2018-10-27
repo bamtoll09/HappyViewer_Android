@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
         android:orientation="vertical"
         >
 
@@ -25,86 +24,102 @@
             <ImageView
                 android:id="@+id/image_gallery_thumbnail"
                 android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher"
                 android:background="@color/colorAccent"
-                />
-
-            <TextView
-                android:id="@+id/text_gallery_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
-                android:text="Android Studio"
-                android:textSize="20dp"
-                android:layout_toRightOf="@id/image_gallery_thumbnail"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
                 />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/image_gallery_thumbnail"
-                android:layout_below="@id/text_gallery_title"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
                 >
 
-                <TextView
-                    android:id="@+id/text_gallery_artist"
+                <LinearLayout
+                    android:id="@+id/layout_gallery_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sample text:asdf"
-                    />
+                    android:orientation="vertical"
+                    >
 
-                <TextView
-                    android:id="@+id/text_gallery_character"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sample text\n:asdf"
-                    android:layout_below="@id/text_gallery_artist"
-                    />
+                        <TextView
+                            android:id="@+id/text_gallery_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Android Studio"
+                            android:textSize="20dp"
+                            />
 
-                <TextView
-                    android:id="@+id/text_gallery_series"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sample text\n:asdf"
-                    android:layout_below="@id/text_gallery_character"
-                    />
+                        <TextView
+                            android:id="@+id/text_gallery_artist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="by.asdf"
+                            />
 
-                <TextView
-                    android:id="@+id/text_gallery_type"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sample text\n:asdf"
-                    android:layout_below="@id/text_gallery_series"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    >
+
+                    <ImageButton
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/like"
+                        android:scaleType="centerCrop"
+                        />
+
+                    <TextView
+                        android:layout_width="36sp"
+                        android:layout_height="wrap_content"
+                        android:text="D"
+                        android:textSize="24sp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_gallery_series"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_gallery_title"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/text_gallery_series"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sample text\n:asdf"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_gallery_series"
+                    android:orientation="vertical"
                     />
 
             </RelativeLayout>
 
         </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginHorizontal="8dp"
-            />
-
-        <GridLayout
-            android:id="@+id/layout_tags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:columnCount="3"
-            android:useDefaultMargins="true"
-            >
-
-        </GridLayout>
-
 
     </LinearLayout>
 

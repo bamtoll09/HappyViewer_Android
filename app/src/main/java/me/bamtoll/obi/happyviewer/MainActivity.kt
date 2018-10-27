@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         galleryAdapter = GalleryAdapter(arrayListOf(), this@MainActivity)
         galleryRecycler.adapter = galleryAdapter
+        galleryAdapter.notifyDataSetChanged()
 
         // loadPage(true)
     }
@@ -209,7 +210,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onRefresh() {
-        loadPage(true)
+        // loadPage(true)
+        refreshLayout.isRefreshing = false
+        // galleryAdapter.notifyDataSetChanged()
     }
 
     override fun onBackPressed() {
