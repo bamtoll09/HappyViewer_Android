@@ -1,11 +1,9 @@
-package me.bamtoll.obi.happyviewer.Piece
+package me.bamtoll.obi.happyviewer.Reader
 
 import android.graphics.Bitmap
 import com.squareup.picasso.Transformation
 import android.graphics.Matrix
-import android.util.Log
 import me.bamtoll.obi.happyviewer.MainActivity
-import me.bamtoll.obi.happyviewer.PieceActivity
 
 class ResizeTransformation: Transformation {
 

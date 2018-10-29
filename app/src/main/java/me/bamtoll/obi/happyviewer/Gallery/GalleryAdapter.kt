@@ -23,7 +23,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
     private var mData: ArrayList<GalleryItem> = arrayListOf(
             GalleryItem("/assets/mono7/", "Ane Naru Mono 7",
                     GalleryItem.InfoItem("Pochi.", "", "Ane Naru Mono", "Doujinshi", listOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"
-                    ,"Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"))
+                    ))
             )
     )
     /*data as ArrayList<GalleryItem>*/
@@ -33,7 +33,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
     var viewHolderInit = 0
 
     companion object {
-        private const val THUMBNAIL_URL = "https://aa.hiyobi.me/tn/"
+        private const val THUMBNAIL_URL = "file:///android_asset/"
         private const val IMAGE_FORMT = ".jpg"
         private const val VIEW_CONTENT = 0
         private const val VIEW_FOOTER = 1
@@ -80,7 +80,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                     viewHolderInit = 1
                 }
 //                Picasso.get().load(THUMBNAIL_URL + mData[p1].inherenceCode + IMAGE_FORMT).fit().placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
-                Picasso.get().load("file:///android_asset/kpt1.jpg").transform(ThumbNailTransformation(p0.context)).placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
+                Picasso.get().load(THUMBNAIL_URL + "mono7/a1.jpeg").transform(ThumbNailTransformation(p0.context)).placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
                 p0.titleText.text = mData[p1].title
                 p0.artistText.text = "by. ".plus(mData[p1].infoItem.artist)
                 //p0.characterText.text = "캐릭: ".plus(mData[p1].infoItem.character)

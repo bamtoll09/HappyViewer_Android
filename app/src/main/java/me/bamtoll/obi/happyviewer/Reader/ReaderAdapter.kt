@@ -1,6 +1,5 @@
-package me.bamtoll.obi.happyviewer.Piece
+package me.bamtoll.obi.happyviewer.Reader
 
-import android.opengl.Visibility
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,14 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
-import me.bamtoll.obi.happyviewer.MainActivity
-import me.bamtoll.obi.happyviewer.PieceActivity
 import me.bamtoll.obi.happyviewer.R
 import java.lang.Exception
 
-class PieceAdapter(data: List<String>): RecyclerView.Adapter<PieceAdapter.ViewHolder>() {
+class ReaderAdapter(data: List<String>): RecyclerView.Adapter<ReaderAdapter.ViewHolder>() {
 
     var mData: List<String> = data
 
