@@ -36,6 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:thumbTint="#0000"
                     />
 
                 <Button
@@ -92,6 +93,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/text_piece_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Title"
@@ -99,30 +101,35 @@
                         />
 
                     <TextView
+                        android:id="@+id/text_piece_artist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="by. Artist"
                         />
 
                     <TextView
+                        android:id="@+id/text_piece_character"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Character"
                         />
 
                     <TextView
+                        android:id="@+id/text_piece_series"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Series"
                         />
 
                     <TextView
+                        android:id="@+id/text_piece_types"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Types"
                         />
 
                     <TextView
+                        android:id="@+id/text_piece_tags"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tags"
