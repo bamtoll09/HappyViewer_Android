@@ -14,7 +14,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
 
-class PieceActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var readerAdapter: ReaderAdapter
     lateinit var piece: String

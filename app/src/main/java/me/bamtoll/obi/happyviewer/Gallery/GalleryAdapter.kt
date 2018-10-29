@@ -1,20 +1,16 @@
 package me.bamtoll.obi.happyviewer.Gallery
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.drawable.LayerDrawable
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.X
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import com.squareup.picasso.Picasso
 import me.bamtoll.obi.happyviewer.MainActivity
-import me.bamtoll.obi.happyviewer.PieceActivity
 import me.bamtoll.obi.happyviewer.R
 import me.bamtoll.obi.happyviewer.TagButton
 
@@ -89,7 +85,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
 
                 /*p0.itemView.setOnClickListener { v ->
                     Log.d("AsDf", mData[p1].inherenceCode + " " + p1)
-                    val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
+                    val intent = Intent(v.context.applicationContext, ReaderActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.putExtra("inherence_code", mData[p1].inherenceCode)
                     v.context.applicationContext.startActivity(intent)
