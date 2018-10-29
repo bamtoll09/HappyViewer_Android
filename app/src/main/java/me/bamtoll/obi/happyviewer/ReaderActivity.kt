@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.layout_piece.*
+import kotlinx.android.synthetic.main.layout_reader.*
 import me.bamtoll.obi.happyviewer.Reader.ReaderAdapter
 import me.bamtoll.obi.happyviewer.Reader.ReaderLayoutManager
 import org.json.JSONArray
@@ -22,7 +22,7 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_piece)
+        setContentView(R.layout.layout_reader)
 
         pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
             override fun onFling(p0: Int, p1: Int): Boolean {

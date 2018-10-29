@@ -11,10 +11,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Gallery
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,8 +20,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_gallery.*
 import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter
 import me.bamtoll.obi.happyviewer.Gallery.GalleryItem
-import me.bamtoll.obi.happyviewer.R.id.drawer_layout
-import me.bamtoll.obi.happyviewer.R.id.galleryRecycler
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
