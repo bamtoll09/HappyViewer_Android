@@ -10,7 +10,6 @@
         android:id="@+id/layout_piece_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f00"
         >
 
         <RelativeLayout
@@ -147,7 +146,6 @@
         android:id="@+id/layout_piece_read"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00f"
         android:layout_alignParentBottom="true"
         >
 
@@ -163,7 +161,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0f0"
         android:layout_below="@id/layout_piece_info"
         android:layout_above="@id/layout_piece_read"
         >

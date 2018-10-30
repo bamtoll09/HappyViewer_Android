@@ -1,5 +1,6 @@
 package me.bamtoll.obi.happyviewer
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
@@ -65,6 +66,35 @@ class PieceActivity: AppCompatActivity() {
                 return true
             }
         })
-        pager_piece_preview.adapter = PreviewPagerAdapter(3)
+        var smalltnUrl = arrayOf(
+                "file:///android_asset/" + "mono7/small/b1.jpg",
+                "file:///android_asset/" + "mono7/small/b2.jpg",
+                "file:///android_asset/" + "mono7/small/b3.jpg",
+                "file:///android_asset/" + "mono7/small/b4.jpg",
+                "file:///android_asset/" + "mono7/small/b5.jpg",
+                "file:///android_asset/" + "mono7/small/b6.jpg",
+                "file:///android_asset/" + "mono7/small/b7.jpg",
+                "file:///android_asset/" + "mono7/small/b8.jpg",
+                "file:///android_asset/" + "mono7/small/b9.jpg",
+                "file:///android_asset/" + "mono7/small/b10.jpg",
+                "file:///android_asset/" + "mono7/small/b11.jpg",
+                "file:///android_asset/" + "mono7/small/b12.jpg",
+                "file:///android_asset/" + "mono7/small/b13.jpg",
+                "file:///android_asset/" + "mono7/small/b14.jpg",
+                "file:///android_asset/" + "mono7/small/b15.jpg",
+                "file:///android_asset/" + "mono7/small/b16.jpg",
+                "file:///android_asset/" + "mono7/small/b17.jpg",
+                "file:///android_asset/" + "mono7/small/b18.jpg",
+                "file:///android_asset/" + "mono7/small/b19.jpg",
+                "file:///android_asset/" + "mono7/small/b20.jpg",
+                "file:///android_asset/" + "mono7/small/b21.jpg",
+                "file:///android_asset/" + "mono7/small/b22.jpg",
+                "file:///android_asset/" + "mono7/small/b23.jpg"
+        )
+        pager_piece_preview.adapter = PreviewPagerAdapter(smalltnUrl)
+        btn_piece_read.setOnClickListener { v ->
+            val intent = Intent(applicationContext, ReaderActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

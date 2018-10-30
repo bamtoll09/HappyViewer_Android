@@ -1,6 +1,7 @@
 package me.bamtoll.obi.happyviewer.Gallery
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.TypedValue
@@ -10,9 +11,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import com.squareup.picasso.Picasso
-import me.bamtoll.obi.happyviewer.MainActivity
-import me.bamtoll.obi.happyviewer.R
-import me.bamtoll.obi.happyviewer.TagButton
+import me.bamtoll.obi.happyviewer.*
 
 class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
@@ -83,13 +82,13 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                 p0.seriesText.text = "원작: ".plus(mData[p1].infoItem.series)
                 // p0.typeText.text = "종류: ".plus(mData[p1].infoItem.type)
 
-                /*p0.itemView.setOnClickListener { v ->
+                p0.itemView.setOnClickListener { v ->
                     Log.d("AsDf", mData[p1].inherenceCode + " " + p1)
-                    val intent = Intent(v.context.applicationContext, ReaderActivity::class.java)
+                    val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("inherence_code", mData[p1].inherenceCode)
+                    // intent.putExtra("inherence_code", mData[p1].inherenceCode)
                     v.context.applicationContext.startActivity(intent)
-                }*/
+                }
             }
             /*VIEW_FOOTER -> {
                 p0.progressBar.visibility = View.VISIBLE

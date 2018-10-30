@@ -4,6 +4,6 @@
     android:id="@+id/layout_preview_grid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:rowCount="5"
-    android:columnCount="3"
+    android:rowCount="3"
+    android:columnCount="5"
     />

@@ -35,9 +35,36 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
         }
         pieceRecycler.layoutManager = ReaderLayoutManager(this)
+        readerAdapter = ReaderAdapter(listOf(
+                "file:///android_asset/" + "mono7/a1.jpeg",
+                "file:///android_asset/" + "mono7/a2.jpeg",
+                "file:///android_asset/" + "mono7/a3.jpeg",
+                "file:///android_asset/" + "mono7/a4.jpeg",
+                "file:///android_asset/" + "mono7/a5.jpeg",
+                "file:///android_asset/" + "mono7/a6.jpeg",
+                "file:///android_asset/" + "mono7/a7.jpeg",
+                "file:///android_asset/" + "mono7/a8.jpeg",
+                "file:///android_asset/" + "mono7/a9.jpeg",
+                "file:///android_asset/" + "mono7/a10.jpeg",
+                "file:///android_asset/" + "mono7/a11.jpeg",
+                "file:///android_asset/" + "mono7/a12.jpeg",
+                "file:///android_asset/" + "mono7/a13.jpeg",
+                "file:///android_asset/" + "mono7/a14.jpeg",
+                "file:///android_asset/" + "mono7/a15.jpeg",
+                "file:///android_asset/" + "mono7/a16.jpeg",
+                "file:///android_asset/" + "mono7/a17.jpeg",
+                "file:///android_asset/" + "mono7/a18.jpeg",
+                "file:///android_asset/" + "mono7/a19.jpeg",
+                "file:///android_asset/" + "mono7/a20.jpeg",
+                "file:///android_asset/" + "mono7/a21.jpeg",
+                "file:///android_asset/" + "mono7/a22.jpeg",
+                "file:///android_asset/" + "mono7/a23.jpeg"
+        ))
+        pieceRecycler.adapter = readerAdapter
 
-        val INHERENCE_CODE = intent.extras.getString("inherence_code")
-        object: AsyncTask<Void, Void, Any>() {
+        // val INHERENCE_CODE = intent.extras.getString("inherence_code")
+
+        /*object: AsyncTask<Void, Void, Any>() {
             override fun onPostExecute(result: Any?) {
                 super.onPostExecute(result)
 
@@ -51,7 +78,7 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 piece = Jsoup.connect(PIECE_ENTRY + "json/" + INHERENCE_CODE + "_list.json").ignoreContentType(true).execute().body()
                 return Any()
             }
-        }.execute()
+        }.execute()*/
     }
 
     fun parsePieceNames(basicUrl: String, jsonArray: JSONArray): List<String> {
