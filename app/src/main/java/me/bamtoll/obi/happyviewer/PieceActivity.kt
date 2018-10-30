@@ -7,6 +7,8 @@ import android.view.View
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_gallery.*
 import kotlinx.android.synthetic.main.layout_piece.*
+import kotlinx.android.synthetic.main.layout_preview.*
+import me.bamtoll.obi.happyviewer.Piece.PreviewPagerAdapter
 
 class PieceActivity: AppCompatActivity() {
     var thumbNail: String? = null
@@ -63,5 +65,6 @@ class PieceActivity: AppCompatActivity() {
                 return true
             }
         })
+        pager_piece_preview.adapter = PreviewPagerAdapter(3)
     }
 }
