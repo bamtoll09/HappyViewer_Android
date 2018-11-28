@@ -79,6 +79,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/text_gallery_type"
                         android:layout_width="36sp"
                         android:layout_height="wrap_content"
                         android:text="D"

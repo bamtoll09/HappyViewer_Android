@@ -1,28 +1,35 @@
 package me.bamtoll.obi.happyviewer
 
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_reader.*
 import me.bamtoll.obi.happyviewer.Reader.ReaderAdapter
 import me.bamtoll.obi.happyviewer.Reader.ReaderLayoutManager
 import org.json.JSONArray
 import org.json.JSONObject
-import org.jsoup.Jsoup
 
 class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var readerAdapter: ReaderAdapter
     lateinit var piece: String
     val PIECE_ENTRY = "https://hiyobi.me/data/"
+    var showActionBar = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_reader)
+        setContentView(R.layout.activity_main)
+        layoutInflater.inflate(R.layout.layout_reader, findViewById(R.id.layout_main),true)
+        setSupportActionBar(toolbar)
+        toolbar.alpha = 0f
+        toolbar.background.alpha = 0
+        toolbar.visibility = View.INVISIBLE
 
         pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
             override fun onFling(p0: Int, p1: Int): Boolean {
@@ -36,29 +43,43 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
         pieceRecycler.layoutManager = ReaderLayoutManager(this)
         readerAdapter = ReaderAdapter(listOf(
-                "file:///android_asset/" + "mono7/a1.jpeg",
-                "file:///android_asset/" + "mono7/a2.jpeg",
-                "file:///android_asset/" + "mono7/a3.jpeg",
-                "file:///android_asset/" + "mono7/a4.jpeg",
-                "file:///android_asset/" + "mono7/a5.jpeg",
-                "file:///android_asset/" + "mono7/a6.jpeg",
-                "file:///android_asset/" + "mono7/a7.jpeg",
-                "file:///android_asset/" + "mono7/a8.jpeg",
-                "file:///android_asset/" + "mono7/a9.jpeg",
-                "file:///android_asset/" + "mono7/a10.jpeg",
-                "file:///android_asset/" + "mono7/a11.jpeg",
-                "file:///android_asset/" + "mono7/a12.jpeg",
-                "file:///android_asset/" + "mono7/a13.jpeg",
-                "file:///android_asset/" + "mono7/a14.jpeg",
-                "file:///android_asset/" + "mono7/a15.jpeg",
-                "file:///android_asset/" + "mono7/a16.jpeg",
-                "file:///android_asset/" + "mono7/a17.jpeg",
-                "file:///android_asset/" + "mono7/a18.jpeg",
-                "file:///android_asset/" + "mono7/a19.jpeg",
-                "file:///android_asset/" + "mono7/a20.jpeg",
-                "file:///android_asset/" + "mono7/a21.jpeg",
-                "file:///android_asset/" + "mono7/a22.jpeg",
-                "file:///android_asset/" + "mono7/a23.jpeg"
+                "file:///android_asset/" + "mono7/a1.jpg",
+                "file:///android_asset/" + "mono7/a2.jpg",
+                "file:///android_asset/" + "mono7/a3.jpg",
+                "file:///android_asset/" + "mono7/a4.jpg",
+                "file:///android_asset/" + "mono7/a5.jpg",
+                "file:///android_asset/" + "mono7/a6.jpg",
+                "file:///android_asset/" + "mono7/a7.jpg",
+                "file:///android_asset/" + "mono7/a8.jpg",
+                "file:///android_asset/" + "mono7/a9.jpg",
+                "file:///android_asset/" + "mono7/a10.jpg",
+                "file:///android_asset/" + "mono7/a11.jpg",
+                "file:///android_asset/" + "mono7/a12.jpg",
+                "file:///android_asset/" + "mono7/a13.jpg",
+                "file:///android_asset/" + "mono7/a14.jpg",
+                "file:///android_asset/" + "mono7/a15.jpg",
+                "file:///android_asset/" + "mono7/a16.jpg",
+                "file:///android_asset/" + "mono7/a17.jpg",
+                "file:///android_asset/" + "mono7/a18.jpg",
+                "file:///android_asset/" + "mono7/a19.jpg",
+                "file:///android_asset/" + "mono7/a20.jpg",
+                "file:///android_asset/" + "mono7/a21.jpg",
+                "file:///android_asset/" + "mono7/a22.jpg",
+                "file:///android_asset/" + "mono7/a23.jpg",
+                "file:///android_asset/" + "mono7/a24.jpg",
+                "file:///android_asset/" + "mono7/a25.jpg",
+                "file:///android_asset/" + "mono7/a26.jpg",
+                "file:///android_asset/" + "mono7/a27.jpg",
+                "file:///android_asset/" + "mono7/a28.jpg",
+                "file:///android_asset/" + "mono7/a29.jpg",
+                "file:///android_asset/" + "mono7/a30.jpg",
+                "file:///android_asset/" + "mono7/a31.jpg",
+                "file:///android_asset/" + "mono7/a32.jpg",
+                "file:///android_asset/" + "mono7/a33.jpg",
+                "file:///android_asset/" + "mono7/a34.jpg",
+                "file:///android_asset/" + "mono7/a35.jpg",
+                "file:///android_asset/" + "mono7/a36.jpg",
+                "file:///android_asset/" + "mono7/a37.jpg"
         ))
         pieceRecycler.adapter = readerAdapter
 
@@ -92,5 +113,30 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         return false
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when (event!!.action) {
+            MotionEvent.ACTION_DOWN -> {
+                if (showActionBar == 0) {
+
+                    showActionBar = 1
+                }
+                else showActionBar = 0
+            }
+        }
+
+        return super.onTouchEvent(event)
+    }
+
+    fun disappear() {
+        toolbar.apply {
+            animate()
+        }
+
+        toolbar.background.alpha = 0
+        toolbar.visibility = View.INVISIBLE
+
+        showActionBar = 0
     }
 }

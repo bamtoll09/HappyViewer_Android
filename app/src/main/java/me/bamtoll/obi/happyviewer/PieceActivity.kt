@@ -1,14 +1,13 @@
 package me.bamtoll.obi.happyviewer
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_gallery.*
 import kotlinx.android.synthetic.main.layout_piece.*
-import kotlinx.android.synthetic.main.layout_preview.*
 import me.bamtoll.obi.happyviewer.Piece.PreviewPagerAdapter
 
 class PieceActivity: AppCompatActivity() {
@@ -19,6 +18,10 @@ class PieceActivity: AppCompatActivity() {
     var series: String? = null
     var types: String? = null
     var tags: Array<String>? = null
+
+    companion object {
+        var previewItemRect: Rect = Rect()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +36,13 @@ class PieceActivity: AppCompatActivity() {
         types = intent.getStringExtra("types")
         tags = intent.getStringArrayExtra("tags")
 
-        if (thumbNail == null) thumbNail = "mono7/a1.jpeg"
-        if (title == null) title = "Ane Naru Mono 7"
-        if (artist == null) artist = "by. Pochi"
-        if (character == null) character = "Character: "
-        if (series == null) series = "Series: Ane Naru Mono"
-        if (types == null) types = "Types: Doujinshi"
-        if (tags == null) tags = arrayOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series")
+        if (thumbNail == null) thumbNail = "mono7/a0.jpg"
+        if (title == null) title = "평범한 8반 49화"
+        if (artist == null) artist = "by. 영파카"
+        if (character == null) character = "Character: 나유나"
+        if (series == null) series = "Series: 평범한 8반"
+        if (types == null) types = "Types: Mango"
+        if (tags == null) tags = arrayOf("평범한 8반", "평", "범", "한", "8", "반")
 
         Picasso.get().load("file:///android_asset/" + thumbNail).into(image_piece_thumbnail)
         text_piece_title.text = title
@@ -67,29 +70,43 @@ class PieceActivity: AppCompatActivity() {
             }
         })
         var smalltnUrl = arrayOf(
-                "file:///android_asset/" + "mono7/small/b1.jpg",
-                "file:///android_asset/" + "mono7/small/b2.jpg",
-                "file:///android_asset/" + "mono7/small/b3.jpg",
-                "file:///android_asset/" + "mono7/small/b4.jpg",
-                "file:///android_asset/" + "mono7/small/b5.jpg",
-                "file:///android_asset/" + "mono7/small/b6.jpg",
-                "file:///android_asset/" + "mono7/small/b7.jpg",
-                "file:///android_asset/" + "mono7/small/b8.jpg",
-                "file:///android_asset/" + "mono7/small/b9.jpg",
-                "file:///android_asset/" + "mono7/small/b10.jpg",
-                "file:///android_asset/" + "mono7/small/b11.jpg",
-                "file:///android_asset/" + "mono7/small/b12.jpg",
-                "file:///android_asset/" + "mono7/small/b13.jpg",
-                "file:///android_asset/" + "mono7/small/b14.jpg",
-                "file:///android_asset/" + "mono7/small/b15.jpg",
-                "file:///android_asset/" + "mono7/small/b16.jpg",
-                "file:///android_asset/" + "mono7/small/b17.jpg",
-                "file:///android_asset/" + "mono7/small/b18.jpg",
-                "file:///android_asset/" + "mono7/small/b19.jpg",
-                "file:///android_asset/" + "mono7/small/b20.jpg",
-                "file:///android_asset/" + "mono7/small/b21.jpg",
-                "file:///android_asset/" + "mono7/small/b22.jpg",
-                "file:///android_asset/" + "mono7/small/b23.jpg"
+                "file:///android_asset/" + "mono7/a1.jpg",
+                "file:///android_asset/" + "mono7/a2.jpg",
+                "file:///android_asset/" + "mono7/a3.jpg",
+                "file:///android_asset/" + "mono7/a4.jpg",
+                "file:///android_asset/" + "mono7/a5.jpg",
+                "file:///android_asset/" + "mono7/a6.jpg",
+                "file:///android_asset/" + "mono7/a7.jpg",
+                "file:///android_asset/" + "mono7/a8.jpg",
+                "file:///android_asset/" + "mono7/a9.jpg",
+                "file:///android_asset/" + "mono7/a10.jpg",
+                "file:///android_asset/" + "mono7/a11.jpg",
+                "file:///android_asset/" + "mono7/a12.jpg",
+                "file:///android_asset/" + "mono7/a13.jpg",
+                "file:///android_asset/" + "mono7/a14.jpg",
+                "file:///android_asset/" + "mono7/a15.jpg",
+                "file:///android_asset/" + "mono7/a16.jpg",
+                "file:///android_asset/" + "mono7/a17.jpg",
+                "file:///android_asset/" + "mono7/a18.jpg",
+                "file:///android_asset/" + "mono7/a19.jpg",
+                "file:///android_asset/" + "mono7/a20.jpg",
+                "file:///android_asset/" + "mono7/a21.jpg",
+                "file:///android_asset/" + "mono7/a22.jpg",
+                "file:///android_asset/" + "mono7/a23.jpg",
+                "file:///android_asset/" + "mono7/a24.jpg",
+                "file:///android_asset/" + "mono7/a25.jpg",
+                "file:///android_asset/" + "mono7/a26.jpg",
+                "file:///android_asset/" + "mono7/a27.jpg",
+                "file:///android_asset/" + "mono7/a28.jpg",
+                "file:///android_asset/" + "mono7/a29.jpg",
+                "file:///android_asset/" + "mono7/a30.jpg",
+                "file:///android_asset/" + "mono7/a31.jpg",
+                "file:///android_asset/" + "mono7/a32.jpg",
+                "file:///android_asset/" + "mono7/a33.jpg",
+                "file:///android_asset/" + "mono7/a34.jpg",
+                "file:///android_asset/" + "mono7/a35.jpg",
+                "file:///android_asset/" + "mono7/a36.jpg",
+                "file:///android_asset/" + "mono7/a37.jpg"
         )
         pager_piece_preview.adapter = PreviewPagerAdapter(smalltnUrl)
         btn_piece_read.setOnClickListener { v ->

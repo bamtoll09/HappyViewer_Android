@@ -9,15 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.squareup.picasso.Picasso
-import me.bamtoll.obi.happyviewer.*
+import me.bamtoll.obi.happyviewer.MainActivity
+import me.bamtoll.obi.happyviewer.PieceActivity
+import me.bamtoll.obi.happyviewer.R
+import me.bamtoll.obi.happyviewer.TagButton
 
 class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
     private var mData: ArrayList<GalleryItem> = arrayListOf(
             GalleryItem("/assets/mono7/", "Ane Naru Mono 7",
-                    GalleryItem.InfoItem("Pochi.", "", "Ane Naru Mono", "Doujinshi", listOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"
+                    GalleryItem.InfoItem("Pochi.", "", "Ane Naru Mono", "Manga", listOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"
                     ))
             )
     )
@@ -75,12 +81,17 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                     viewHolderInit = 1
                 }
 //                Picasso.get().load(THUMBNAIL_URL + mData[p1].inherenceCode + IMAGE_FORMT).fit().placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
-                Picasso.get().load(THUMBNAIL_URL + "mono7/a1.jpeg").transform(ThumbNailTransformation(p0.context)).placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
+                Picasso.get().load(THUMBNAIL_URL + "mono7/a0.jpg").transform(ThumbNailTransformation(p0.context)).placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
                 p0.titleText.text = mData[p1].title
                 p0.artistText.text = "by. ".plus(mData[p1].infoItem.artist)
                 //p0.characterText.text = "캐릭: ".plus(mData[p1].infoItem.character)
                 p0.seriesText.text = "원작: ".plus(mData[p1].infoItem.series)
                 // p0.typeText.text = "종류: ".plus(mData[p1].infoItem.type)
+                when (mData[p1].infoItem.type) {
+                    "Artist CG" -> p0.typeText.text = "CG"
+                    "Doujinshi" -> p0.typeText.text = "D"
+                    "Manga" -> p0.typeText.text = "M"
+                }
 
                 p0.itemView.setOnClickListener { v ->
                     Log.d("AsDf", mData[p1].inherenceCode + " " + p1)
@@ -174,7 +185,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
         lateinit var artistText: TextView
         // lateinit var characterText: TextView
         lateinit var seriesText: TextView
-        // lateinit var typeText: TextView
+        lateinit var typeText: TextView
         lateinit var tagLayout: LinearLayout
 
         lateinit var progressBar: ProgressBar
@@ -187,7 +198,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                     artistText = itemView.findViewById(R.id.text_gallery_artist) as TextView
                     // characterText = itemView.findViewById(R.id.text_gallery_character) as TextView
                     seriesText = itemView.findViewById(R.id.text_gallery_series) as TextView
-                    // typeText = itemView.findViewById(R.id.text_gallery_type) as TextView
+                    typeText = itemView.findViewById(R.id.text_gallery_type) as TextView
                     tagLayout = itemView.findViewById(R.id.layout_tags) as LinearLayout
                 }
                 VIEW_FOOTER -> {
