@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         galleryAdapter.notifyDataSetChanged()
 
         // loadPage(true)
+        // https://ltn.hitomi.la/galleries/1320979.js
     }
 
     fun getFirstChildElement(elements: Elements, cssQuery: String): Elements {

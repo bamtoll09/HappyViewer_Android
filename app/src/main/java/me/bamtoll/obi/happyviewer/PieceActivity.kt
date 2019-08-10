@@ -36,7 +36,7 @@ class PieceActivity: AppCompatActivity() {
         types = intent.getStringExtra("types")
         tags = intent.getStringArrayExtra("tags")
 
-        if (thumbNail == null) thumbNail = "mono7/a0.jpg"
+        if (thumbNail == null) thumbNail = "ta/a0.jpg"
         if (title == null) title = "평범한 8반 49화"
         if (artist == null) artist = "by. 영파카"
         if (character == null) character = "Character: 나유나"
@@ -70,43 +70,43 @@ class PieceActivity: AppCompatActivity() {
             }
         })
         var smalltnUrl = arrayOf(
-                "file:///android_asset/" + "mono7/a1.jpg",
-                "file:///android_asset/" + "mono7/a2.jpg",
-                "file:///android_asset/" + "mono7/a3.jpg",
-                "file:///android_asset/" + "mono7/a4.jpg",
-                "file:///android_asset/" + "mono7/a5.jpg",
-                "file:///android_asset/" + "mono7/a6.jpg",
-                "file:///android_asset/" + "mono7/a7.jpg",
-                "file:///android_asset/" + "mono7/a8.jpg",
-                "file:///android_asset/" + "mono7/a9.jpg",
-                "file:///android_asset/" + "mono7/a10.jpg",
-                "file:///android_asset/" + "mono7/a11.jpg",
-                "file:///android_asset/" + "mono7/a12.jpg",
-                "file:///android_asset/" + "mono7/a13.jpg",
-                "file:///android_asset/" + "mono7/a14.jpg",
-                "file:///android_asset/" + "mono7/a15.jpg",
-                "file:///android_asset/" + "mono7/a16.jpg",
-                "file:///android_asset/" + "mono7/a17.jpg",
-                "file:///android_asset/" + "mono7/a18.jpg",
-                "file:///android_asset/" + "mono7/a19.jpg",
-                "file:///android_asset/" + "mono7/a20.jpg",
-                "file:///android_asset/" + "mono7/a21.jpg",
-                "file:///android_asset/" + "mono7/a22.jpg",
-                "file:///android_asset/" + "mono7/a23.jpg",
-                "file:///android_asset/" + "mono7/a24.jpg",
-                "file:///android_asset/" + "mono7/a25.jpg",
-                "file:///android_asset/" + "mono7/a26.jpg",
-                "file:///android_asset/" + "mono7/a27.jpg",
-                "file:///android_asset/" + "mono7/a28.jpg",
-                "file:///android_asset/" + "mono7/a29.jpg",
-                "file:///android_asset/" + "mono7/a30.jpg",
-                "file:///android_asset/" + "mono7/a31.jpg",
-                "file:///android_asset/" + "mono7/a32.jpg",
-                "file:///android_asset/" + "mono7/a33.jpg",
-                "file:///android_asset/" + "mono7/a34.jpg",
-                "file:///android_asset/" + "mono7/a35.jpg",
-                "file:///android_asset/" + "mono7/a36.jpg",
-                "file:///android_asset/" + "mono7/a37.jpg"
+                "file:///android_asset/" + "ta/a1.jpg",
+                "file:///android_asset/" + "ta/a2.jpg",
+                "file:///android_asset/" + "ta/a3.jpg",
+                "file:///android_asset/" + "ta/a4.jpg",
+                "file:///android_asset/" + "ta/a5.jpg",
+                "file:///android_asset/" + "ta/a6.jpg",
+                "file:///android_asset/" + "ta/a7.jpg",
+                "file:///android_asset/" + "ta/a8.jpg",
+                "file:///android_asset/" + "ta/a9.jpg",
+                "file:///android_asset/" + "ta/a10.jpg",
+                "file:///android_asset/" + "ta/a11.jpg",
+                "file:///android_asset/" + "ta/a12.jpg",
+                "file:///android_asset/" + "ta/a13.jpg",
+                "file:///android_asset/" + "ta/a14.jpg",
+                "file:///android_asset/" + "ta/a15.jpg",
+                "file:///android_asset/" + "ta/a16.jpg",
+                "file:///android_asset/" + "ta/a17.jpg",
+                "file:///android_asset/" + "ta/a18.jpg",
+                "file:///android_asset/" + "ta/a19.jpg",
+                "file:///android_asset/" + "ta/a20.jpg",
+                "file:///android_asset/" + "ta/a21.jpg",
+                "file:///android_asset/" + "ta/a22.jpg",
+                "file:///android_asset/" + "ta/a23.jpg",
+                "file:///android_asset/" + "ta/a24.jpg",
+                "file:///android_asset/" + "ta/a25.jpg",
+                "file:///android_asset/" + "ta/a26.jpg",
+                "file:///android_asset/" + "ta/a27.jpg",
+                "file:///android_asset/" + "ta/a28.jpg",
+                "file:///android_asset/" + "ta/a29.jpg",
+                "file:///android_asset/" + "ta/a30.jpg",
+                "file:///android_asset/" + "ta/a31.jpg",
+                "file:///android_asset/" + "ta/a32.jpg",
+                "file:///android_asset/" + "ta/a33.jpg",
+                "file:///android_asset/" + "ta/a34.jpg",
+                "file:///android_asset/" + "ta/a35.jpg",
+                "file:///android_asset/" + "ta/a36.jpg",
+                "file:///android_asset/" + "ta/a37.jpg"
         )
         pager_piece_preview.adapter = PreviewPagerAdapter(smalltnUrl)
         btn_piece_read.setOnClickListener { v ->
