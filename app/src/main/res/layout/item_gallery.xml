@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/activity_vertical_margin"
     android:background="@drawable/shape_card"
-    android:elevation="4dp"
-    android:orientation="vertical"
-    >
+    app:cardPreventCornerOverlap="true"
+    app:cardElevation="1dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             >
 
             <ImageView
@@ -26,86 +25,84 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher"
-                android:background="@color/colorAccent"
+                android:background="@drawable/shape_card"
                 android:layout_centerVertical="true"
                 android:adjustViewBounds="true"
                 />
 
+            <LinearLayout
+                android:id="@+id/action_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                >
+
+                <ImageButton
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/like"
+                    android:scaleType="centerCrop"
+                    />
+
+                <TextView
+                    android:id="@+id/text_gallery_type"
+                    android:layout_width="36sp"
+                    android:layout_height="wrap_content"
+                    android:text="D"
+                    android:textSize="24sp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/image_gallery_thumbnail"
+                android:layout_toLeftOf="@id/action_gallery"
                 android:layout_marginLeft="8dp"
                 >
 
                 <LinearLayout
-                    android:id="@+id/layout_gallery_title"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/layout_gallery_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
 
-                        <TextView
-                            android:id="@+id/text_gallery_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Android Studio"
-                            android:textSize="20dp"
-                            />
-
-                        <TextView
-                            android:id="@+id/text_gallery_artist"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="by.asdf"
-                            />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentRight="true"
-                    >
-
-                    <ImageButton
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/like"
-                        android:scaleType="centerCrop"
+                    <TextView
+                        android:id="@+id/text_gallery_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Android Studio"
+                        android:textSize="20dp"
                         />
 
                     <TextView
-                        android:id="@+id/text_gallery_type"
-                        android:layout_width="36sp"
+                        android:id="@+id/text_gallery_artist"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="D"
-                        android:textSize="24sp"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
+                        android:layout_marginTop="2dp"
+                        android:text="by.asdf"
                         />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_gallery_series"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_gallery_title"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="vertical"
-                    >
+                    <TextView
+                        android:id="@+id/text_gallery_character"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="character: adam"
+                        />
 
                     <TextView
                         android:id="@+id/text_gallery_series"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="sample text\n:asdf"
+                        android:layout_marginTop="2dp"
+                        android:text="series: starcraft"
                         />
 
                 </LinearLayout>
@@ -114,7 +111,9 @@
                     android:id="@+id/layout_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_gallery_series"
+                    android:layout_below="@id/layout_gallery_info"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="4dp"
                     android:orientation="vertical"
                     />
 
@@ -124,4 +123,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

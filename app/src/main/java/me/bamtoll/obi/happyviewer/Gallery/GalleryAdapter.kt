@@ -9,10 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import com.squareup.picasso.Picasso
 import me.bamtoll.obi.happyviewer.MainActivity
 import me.bamtoll.obi.happyviewer.PieceActivity
@@ -23,7 +20,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
 
     private var mData: ArrayList<GalleryItem> = arrayListOf(
             GalleryItem("/assets/ta/", "Ane Naru Mono 7",
-                    GalleryItem.InfoItem("Pochi.", "", "Ane Naru Mono", "Manga", listOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"
+                    GalleryItem.InfoItem("Pochi.", "WolfGirl", "Ane Naru Mono", "Manga", listOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"
                     ))
             )
     )
@@ -81,16 +78,26 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                     viewHolderInit = 1
                 }
 //                Picasso.get().load(THUMBNAIL_URL + mData[p1].inherenceCode + IMAGE_FORMT).fit().placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
-                Picasso.get().load(THUMBNAIL_URL + "ta/a0.jpg").transform(ThumbNailTransformation(p0.context)).placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
+                Picasso.get().load(THUMBNAIL_URL + "ta/a00.jpg").transform(ThumbNailTransformation(p0.context)).placeholder(R.mipmap.ic_launcher).into(p0.thumbnailImage)
                 p0.titleText.text = mData[p1].title
                 p0.artistText.text = "by. ".plus(mData[p1].infoItem.artist)
-                //p0.characterText.text = "캐릭: ".plus(mData[p1].infoItem.character)
+                p0.characterText.text = "캐릭: ".plus(mData[p1].infoItem.character)
                 p0.seriesText.text = "원작: ".plus(mData[p1].infoItem.series)
                 // p0.typeText.text = "종류: ".plus(mData[p1].infoItem.type)
                 when (mData[p1].infoItem.type) {
                     "Artist CG" -> p0.typeText.text = "CG"
                     "Doujinshi" -> p0.typeText.text = "D"
                     "Manga" -> p0.typeText.text = "M"
+                }
+
+                p0.artistText.setOnClickListener { v ->
+                    Toast.makeText(v.context.applicationContext, mData[p1].infoItem.artist, Toast.LENGTH_SHORT).show()
+                }
+                p0.characterText.setOnClickListener { v ->
+                    Toast.makeText(v.context.applicationContext, mData[p1].infoItem.character, Toast.LENGTH_SHORT).show()
+                }
+                p0.seriesText.setOnClickListener { v ->
+                    Toast.makeText(v.context.applicationContext, mData[p1].infoItem.series, Toast.LENGTH_SHORT).show()
                 }
 
                 p0.itemView.setOnClickListener { v ->
@@ -183,7 +190,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
         lateinit var thumbnailImage: ImageView
         lateinit var titleText: TextView
         lateinit var artistText: TextView
-        // lateinit var characterText: TextView
+        lateinit var characterText: TextView
         lateinit var seriesText: TextView
         lateinit var typeText: TextView
         lateinit var tagLayout: LinearLayout
@@ -196,7 +203,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                     thumbnailImage = itemView.findViewById(R.id.image_gallery_thumbnail) as ImageView
                     titleText = itemView.findViewById(R.id.text_gallery_title) as TextView
                     artistText = itemView.findViewById(R.id.text_gallery_artist) as TextView
-                    // characterText = itemView.findViewById(R.id.text_gallery_character) as TextView
+                    characterText = itemView.findViewById(R.id.text_gallery_character) as TextView
                     seriesText = itemView.findViewById(R.id.text_gallery_series) as TextView
                     typeText = itemView.findViewById(R.id.text_gallery_type) as TextView
                     tagLayout = itemView.findViewById(R.id.layout_tags) as LinearLayout
