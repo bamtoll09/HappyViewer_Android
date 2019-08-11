@@ -2,6 +2,7 @@ package me.bamtoll.obi.happyviewer.Gallery
 
 import android.content.Context
 import android.content.Intent
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.TypedValue
@@ -20,21 +21,26 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
 
     private var mData: ArrayList<GalleryItem> = arrayListOf(
             GalleryItem("/assets/ta/", "Ane Naru Mono 7",
-                    GalleryItem.InfoItem("Pochi.", "WolfGirl", "Ane Naru Mono", "Manga", listOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series"
-                    ))
+                    GalleryItem.InfoItem("Pochi.", "WolfGirl", "Ane Naru Mono", "Manga",
+                            arrayOf("Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series")
+                    )
             )
     )
     /*data as ArrayList<GalleryItem>*/
     private val mainActivity = activity
     var firstLayoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     var layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
     var viewHolderInit = 0
+
+    var tagButtons: ArrayList<Button> = ArrayList()
 
     companion object {
         private const val THUMBNAIL_URL = "file:///android_asset/"
         private const val IMAGE_FORMT = ".jpg"
         private const val VIEW_CONTENT = 0
         private const val VIEW_FOOTER = 1
+        lateinit var layoutParams: LinearLayout.LayoutParams
     }
 
     init {
@@ -105,6 +111,12 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                     val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     // intent.putExtra("inherence_code", mData[p1].inherenceCode)
+                    intent.putExtra("title", mData[p1].title)
+                    intent.putExtra("artist", mData[p1].infoItem.artist)
+                    intent.putExtra("character", mData[p1].infoItem.character)
+                    intent.putExtra("series", mData[p1].infoItem.series)
+                    intent.putExtra("type", mData[p1].infoItem.type)
+                    intent.putExtra("tag", mData[p1].infoItem.tag)
                     v.context.applicationContext.startActivity(intent)
                 }
             }
@@ -123,7 +135,7 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
             override fun onGlobalLayout() {
                 Log.d("width", holder.tagLayout.width.toString())
                 if (mData[holder.adapterPosition].infoItem.tag != null) {
-                    var tags: List<String> = mData[holder.adapterPosition].infoItem.tag!!
+                    var tags: Array<String> = mData[holder.adapterPosition].infoItem.tag!!
                     var tagsWidth = 0
 
                     for (i in tags.indices) {
@@ -138,15 +150,18 @@ class GalleryAdapter(data: List<GalleryItem>, activity: MainActivity): RecyclerV
                             tagsWidth = dpToPixel(tags[i].length * 7 + 15, holder.context)
                             holder.tagLine++
                         }
-                        (holder.tagLayout.getChildAt(holder.tagLine - 1) as LinearLayout).addView(TagButton(holder.context, tags[i]))
+                        tagButtons.add(TagButton(holder.context, tags!![i]))
+                        tagButtons[i].setOnClickListener { v ->
+                            Snackbar.make(v, tags!![i], Snackbar.LENGTH_SHORT).setAction("action", null).show()
+                            Log.d("TATA", "Clicked")
+                        }
+                        (holder.tagLayout.getChildAt(holder.tagLine - 1) as LinearLayout).addView(tagButtons[i])
                     }
                 }
                 holder.tagLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
     }
-
-
 
     fun dpToPixel(dp: Int, context: Context): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).toInt()

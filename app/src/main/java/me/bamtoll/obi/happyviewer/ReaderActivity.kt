@@ -67,7 +67,7 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 "file:///android_asset/" + "ta/a21.jpg",
                 "file:///android_asset/" + "ta/a22.jpg",
                 "file:///android_asset/" + "ta/a23.jpg",
-                "file:///android_asset/" + "ta/a24.jpg",
+                "file:///android_asset/" + "ta/a24.jpg"/*,
                 "file:///android_asset/" + "ta/a25.jpg",
                 "file:///android_asset/" + "ta/a26.jpg",
                 "file:///android_asset/" + "ta/a27.jpg",
@@ -80,7 +80,7 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 "file:///android_asset/" + "ta/a34.jpg",
                 "file:///android_asset/" + "ta/a35.jpg",
                 "file:///android_asset/" + "ta/a36.jpg",
-                "file:///android_asset/" + "ta/a37.jpg"
+                "file:///android_asset/" + "ta/a37.jpg"*/
         ))
         pieceRecycler.adapter = readerAdapter
 

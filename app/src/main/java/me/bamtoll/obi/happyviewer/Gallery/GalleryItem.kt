@@ -6,6 +6,6 @@ class GalleryItem(var inherenceCode: String, var title: String, var infoItem: In
                    var character: String = "",
                    var series: String = "",
                    var type: String = "",
-                   var tag: List<String>? = null
+                   var tag: Array<String>? = null
     )
 }

@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_gallery.*
 import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter
 import me.bamtoll.obi.happyviewer.Gallery.GalleryItem
+import me.bamtoll.obi.happyviewer.MainActivity.Companion.PAGE
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
@@ -64,12 +65,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setAction("Action", null).show()
         }
 
-        val toggle = ActionBarDrawerToggle(
+        /*val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener(this)*/
 
         refreshLayout.setColorSchemeResources(R.color.red, R.color.green, R.color.blue)
         refreshLayout.setOnRefreshListener(this)
@@ -146,7 +147,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var character = ""
         var series = ""
         var type = ""
-        var tag: List<String>? = null
+        var tag: Array<String>? = null
 
         for (infoElems: Elements in infoElemsList) {
             for (infoElem: Element in infoElems) {
@@ -157,7 +158,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     "캐릭" -> character = infoComp[1].text()
                     "원작" -> series = infoComp[1].text()
                     "장르" -> type = infoComp[1].text()
-                    "태그" -> tag = infoComp[1].select("a").eachText()
+                    "태그" -> tag = infoComp[1].select("a").eachText().toTypedArray()
                 }
             }
             infoItemList.add(GalleryItem.InfoItem(artist, character, series, type, tag))
