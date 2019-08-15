@@ -1,4 +1,4 @@
-package me.bamtoll.obi.happyviewer.Reader
+package me.bamtoll.obi.happyviewer.Viewer
 
 import android.graphics.Bitmap
 import com.squareup.picasso.Transformation

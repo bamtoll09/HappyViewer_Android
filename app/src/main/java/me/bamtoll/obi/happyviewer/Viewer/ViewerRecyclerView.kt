@@ -1,10 +1,10 @@
-package me.bamtoll.obi.happyviewer.Reader
+package me.bamtoll.obi.happyviewer.Viewer
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 
-class ReaderRecyclerView(context: Context): RecyclerView(context) {
+class ViewerRecyclerView(context: Context): RecyclerView(context) {
 
     override fun fling(velocityX: Int, velocityY: Int): Boolean {
 

@@ -79,9 +79,10 @@
                     >
 
                     <ImageButton
+                        android:id="@+id/imgbtn_piece_bookmark"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/like"
+                        android:src="@drawable/ic_star_border_black_24dp"
                         android:scaleType="centerCrop"
                         />
 
@@ -95,12 +96,12 @@
                         android:textStyle="bold"
                         />
 
-                    <ImageButton
+                    <!--<ImageButton
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/ic_follow_black_36dp"
                         android:scaleType="centerCrop"
-                        />
+                        />-->
 
                 </LinearLayout>
 
@@ -148,7 +149,7 @@
                     android:id="@+id/layout_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_piece_action"
+                    android:layout_below="@id/layout_piece_info"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="4dp"
                     android:orientation="vertical"

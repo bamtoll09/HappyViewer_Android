@@ -1,4 +1,4 @@
-package me.bamtoll.obi.happyviewer.Reader
+package me.bamtoll.obi.happyviewer.Viewer
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import me.bamtoll.obi.happyviewer.R
 
-class ReaderAdapter(data: List<String>): RecyclerView.Adapter<ReaderAdapter.ViewHolder>() {
+class ViewerAdapter(data: List<String>): RecyclerView.Adapter<ViewerAdapter.ViewHolder>() {
 
     var mData: List<String> = data
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.util.TypedValue
@@ -14,18 +15,27 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_piece.*
+import me.bamtoll.obi.happyviewer.Customization.TagButton
+import me.bamtoll.obi.happyviewer.Gallery.EXT
+import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter
+import me.bamtoll.obi.happyviewer.MainActivity.Companion.pf
 import me.bamtoll.obi.happyviewer.Piece.PreviewPagerAdapter
 
 class PieceActivity: AppCompatActivity() {
-    var thumbNail: String? = null
+    var thumbNail = ""
+    var inherenceCode: String? = null
     var title: String? = null
     var artist: String? = null
     var character: String? = null
     var series: String? = null
     var type: String? = null
     var tag: Array<String>? = null
+    var isBMarked: Boolean = false
+    var ext: String? = null
+
     var tagButtons: ArrayList<Button> = ArrayList()
 
     lateinit var tagLayout: LinearLayout
@@ -47,24 +57,30 @@ class PieceActivity: AppCompatActivity() {
         setContentView(R.layout.layout_piece)
 //        layoutInflater.inflate(R.layout.layout_piece, findViewById(R.id.layout_main),true)
 
+        inherenceCode = intent.getStringExtra("inherence_code")
         title = intent.getStringExtra("title")
         artist = intent.getStringExtra("artist")
         character = intent.getStringExtra("character")
         series = intent.getStringExtra("series")
         type = intent.getStringExtra("type")
         tag = intent.getStringArrayExtra("tag")
+        isBMarked = intent.getBooleanExtra("bookmark", false)
+        ext = intent.getStringExtra("extension")
 
-        thumbNail = "ta/a0.jpg"
+        if (inherenceCode == null) inherenceCode = "/assets/ta/"
         if (title == null) title = "평범한 8반 49화"
         if (artist == null) artist = "by. 영파카"
         if (character == null) character = "Character: 나유나"
         if (series == null) series = "Series: 평범한 8반"
         if (type == null) type = "Types: Mango"
         if (tag == null) tag = arrayOf("평범한 8반", "평", "범", "한", "8", "반", "Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series")
+        if (ext == null) ext = EXT.JPG
+
+        thumbNail = inherenceCode.plus("/a00").plus(ext) /*"/tn/".plus(inherenceCode).plus(ext)*/
 
         tagLayout = findViewById(R.id.layout_tags) as LinearLayout
 
-        Picasso.get().load("file:///android_asset/" + thumbNail).into(image_piece_thumbnail)
+        Picasso.get().load(GalleryAdapter.THUMBNAIL_URL.plus(thumbNail)).into(image_piece_thumbnail)
         text_piece_title.text = title
         text_piece_artist.text = "by. ".plus(artist)
         text_piece_character.text = "캐릭: ".plus(character)
@@ -114,6 +130,40 @@ class PieceActivity: AppCompatActivity() {
             }
         })
 
+        if (isBMarked) {
+            imgbtn_piece_bookmark.setImageResource(R.drawable.ic_star_black_24dp)
+        } else {
+            imgbtn_piece_bookmark.setImageResource(R.drawable.ic_star_border_black_24dp)
+        }
+
+        imgbtn_piece_bookmark.setOnClickListener{ v ->
+            if (isBMarked) {
+                isBMarked = false
+                
+                pf.remove(inherenceCode!!)
+                
+                imgbtn_piece_bookmark.setImageResource(R.drawable.ic_star_border_black_24dp)
+
+                val pos = MainActivity.galleryAdapter.changeBMarkState(inherenceCode!!, false)
+                MainActivity.galleryAdapter.notifyItemChanged(pos)
+
+                Toast.makeText(v.context.applicationContext, "Mark Removed", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                isBMarked = true
+
+                MainActivity.pf.save(inherenceCode!!, inherenceCode!!)
+
+                imgbtn_piece_bookmark.setImageResource(R.drawable.ic_star_black_24dp)
+
+                val pos = MainActivity.galleryAdapter.changeBMarkState(inherenceCode!!, true)
+                MainActivity.galleryAdapter.notifyItemChanged(pos)
+
+                Toast.makeText(v.context.applicationContext, "Marked\n".plus(MainActivity.pf.find(inherenceCode!!)), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
         btn_piece_download.setOnClickListener { v ->
             v.visibility = View.INVISIBLE
         }
@@ -123,6 +173,7 @@ class PieceActivity: AppCompatActivity() {
                 return true
             }
         })
+
         var smalltnUrl = arrayOf(
                 "file:///android_asset/" + "ta/a1.jpg",
                 "file:///android_asset/" + "ta/a2.jpg",
@@ -164,8 +215,9 @@ class PieceActivity: AppCompatActivity() {
         )
         pager_piece_preview.adapter = PreviewPagerAdapter(smalltnUrl)
         btn_piece_read.setOnClickListener { v ->
-            val intent = Intent(applicationContext, ReaderActivity::class.java)
+            val intent = Intent(applicationContext, ViewerActivity::class.java)
             startActivity(intent)
+            finishAndRemoveTask()
         }
     }
 

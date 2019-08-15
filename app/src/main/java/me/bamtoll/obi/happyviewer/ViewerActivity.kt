@@ -1,5 +1,6 @@
 package me.bamtoll.obi.happyviewer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
@@ -11,39 +12,42 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_reader.*
-import me.bamtoll.obi.happyviewer.Reader.ReaderAdapter
-import me.bamtoll.obi.happyviewer.Reader.ReaderLayoutManager
+import me.bamtoll.obi.happyviewer.Viewer.ViewerAdapter
+import me.bamtoll.obi.happyviewer.Viewer.ViewerLayoutManager
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ViewerActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var readerAdapter: ReaderAdapter
+    lateinit var viewerAdapter: ViewerAdapter
     lateinit var piece: String
     val PIECE_ENTRY = "https://hiyobi.me/data/"
     var showActionBar = 1
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         layoutInflater.inflate(R.layout.layout_reader, findViewById(R.id.layout_main),true)
         setSupportActionBar(toolbar)
-        toolbar.alpha = 0f
-        toolbar.background.alpha = 0
-        toolbar.visibility = View.INVISIBLE
+//        toolbar.alpha = 0f
+//        toolbar.background.alpha = 0
+//        toolbar.visibility = View.INVISIBLE
+
+        fab.visibility = View.GONE
 
         pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
             override fun onFling(p0: Int, p1: Int): Boolean {
                 Log.d("SPEED", p0.toString() + "." + p1.toString())
                 if (Math.abs(p1) <= 3000)
-                    ReaderLayoutManager.EXTRA_SPACE_RANGE = 1.0f
+                    ViewerLayoutManager.EXTRA_SPACE_RANGE = 1.0f
                 else
-                    ReaderLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
+                    ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
                 return false
             }
         }
-        pieceRecycler.layoutManager = ReaderLayoutManager(this)
-        readerAdapter = ReaderAdapter(listOf(
+        pieceRecycler.layoutManager = ViewerLayoutManager(this)
+        viewerAdapter = ViewerAdapter(listOf(
                 "file:///android_asset/" + "ta/a1.jpg",
                 "file:///android_asset/" + "ta/a2.jpg",
                 "file:///android_asset/" + "ta/a3.jpg",
@@ -82,7 +86,7 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 "file:///android_asset/" + "ta/a36.jpg",
                 "file:///android_asset/" + "ta/a37.jpg"*/
         ))
-        pieceRecycler.adapter = readerAdapter
+        pieceRecycler.adapter = viewerAdapter
 
         // val INHERENCE_CODE = intent.extras.getString("inherence_code")
 
@@ -130,6 +134,14 @@ class ReaderActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
 
         return super.onTouchEvent(event)
+    }
+
+    override fun finish() {
+        super.finish()
+
+//        toolbar.alpha = 1f
+//        toolbar.background.alpha = 255
+//        toolbar.visibility = View.VISIBLE
     }
 
     fun disappear() {
