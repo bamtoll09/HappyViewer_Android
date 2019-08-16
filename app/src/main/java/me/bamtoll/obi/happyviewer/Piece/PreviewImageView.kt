@@ -29,7 +29,7 @@ class PreviewImageResizeTransform: Transformation {
             var height = 1
             if (source.width > source.height) height = 0
 
-            var scale = 0f
+            var scale: Float
             if (height == 0) scale = PieceActivity.previewItemRect.width() / source.width.toFloat()
             else scale = PieceActivity.previewItemRect.height() / source.height.toFloat()
 

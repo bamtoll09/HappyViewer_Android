@@ -39,10 +39,12 @@ class ViewerActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
         pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
             override fun onFling(p0: Int, p1: Int): Boolean {
                 Log.d("SPEED", p0.toString() + "." + p1.toString())
-                if (Math.abs(p1) <= 3000)
-                    ViewerLayoutManager.EXTRA_SPACE_RANGE = 1.0f
-                else
-                    ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
+//                if (Math.abs(p1) <= 3000)
+//                    ViewerLayoutManager.EXTRA_SPACE_RANGE = 1.0f
+//                else
+//                    ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
+                ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1).toFloat()
+                Log.d("flingfling", "p0: ".plus(p0).plus(", p1: ").plus(p1))
                 return false
             }
         }

@@ -1,10 +1,13 @@
 package me.bamtoll.obi.happyviewer.Gallery
 
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.util.JsonReader
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -12,12 +15,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
+import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
 import me.bamtoll.obi.happyviewer.PieceActivity
 import me.bamtoll.obi.happyviewer.R
 import me.bamtoll.obi.happyviewer.Customization.TagButton
+import me.bamtoll.obi.happyviewer.Data
 import me.bamtoll.obi.happyviewer.MainActivity
 import me.bamtoll.obi.happyviewer.MainActivity.Companion.pf
+import java.io.*
+import java.lang.Exception
+import java.lang.StringBuilder
+import java.net.URL
 
 class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
@@ -141,6 +150,16 @@ class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): Recy
 
                 p0.itemView.setOnClickListener { v ->
                     Log.d("AsDf", mData[p1].inherenceCode + " " + p1)
+
+                    var json: String = ""
+                    try {
+                        val  inputStream:InputStream = activity.assets.open("ta/ta_list.json")
+                        json = inputStream.bufferedReader().use{it.readText()}
+                        decodeData(json)
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
+                    }
+
                     val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.putExtra("inherence_code", mData[p1].inherenceCode)
@@ -216,6 +235,25 @@ class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): Recy
             }
         }
         return -1
+    }
+
+    fun decodeData(json: String) {
+        Log.d("jsonjsonjsonsjs", json)
+
+        val result = Klaxon()
+                .parseArray<Data>(json)
+
+//        val klaxon = Klaxon()
+//        val result = arrayListOf<Data>()
+//        JsonReader(StringReader(json)).use { reader ->
+//            reader.beginArray()
+//                while (reader.hasNext()) {
+//                    val data = klaxon.parse<Data>(reader)
+//                    result.add(data)
+//                }
+//            }
+
+        Log.d("jsonjsonjsonsjs", result!![0].name)
     }
 
     override fun getItemViewType(position: Int): Int {
