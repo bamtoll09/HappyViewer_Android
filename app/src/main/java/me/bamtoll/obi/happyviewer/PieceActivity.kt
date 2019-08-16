@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.layout_piece.*
 import me.bamtoll.obi.happyviewer.Customization.TagButton
 import me.bamtoll.obi.happyviewer.Gallery.EXT
 import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter
+import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter.Companion.layoutParams
+import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter.Companion.tagLayoutWidth
 import me.bamtoll.obi.happyviewer.MainActivity.Companion.pf
 import me.bamtoll.obi.happyviewer.Piece.PreviewPagerAdapter
 
@@ -35,6 +37,8 @@ class PieceActivity: AppCompatActivity() {
     var tag: Array<String>? = null
     var isBMarked: Boolean = false
     var ext: String? = null
+    var name: Array<String>? = null
+    var scale: FloatArray? = null
 
     var tagButtons: ArrayList<Button> = ArrayList()
 
@@ -66,6 +70,8 @@ class PieceActivity: AppCompatActivity() {
         tag = intent.getStringArrayExtra("tag")
         isBMarked = intent.getBooleanExtra("bookmark", false)
         ext = intent.getStringExtra("extension")
+        name = intent.getStringArrayExtra("name")
+        scale = intent.getFloatArrayExtra("scale")
 
         if (inherenceCode == null) inherenceCode = "/assets/ta/"
         if (title == null) title = "평범한 8반 49화"
@@ -75,6 +81,63 @@ class PieceActivity: AppCompatActivity() {
         if (type == null) type = "Types: Mango"
         if (tag == null) tag = arrayOf("평범한 8반", "평", "범", "한", "8", "반", "Blowjob", "Nakadashi", "Paizuri", "Ponytail", "Sole Female", "Shota", "Sole Male", "Multi-work Series")
         if (ext == null) ext = EXT.JPG
+        if (name == null) name = arrayOf(
+                "file:///android_asset/" + "ta/a1.jpg",
+                "file:///android_asset/" + "ta/a2.jpg",
+                "file:///android_asset/" + "ta/a3.jpg",
+                "file:///android_asset/" + "ta/a4.jpg",
+                "file:///android_asset/" + "ta/a5.jpg",
+                "file:///android_asset/" + "ta/a6.jpg",
+                "file:///android_asset/" + "ta/a7.jpg",
+                "file:///android_asset/" + "ta/a8.jpg",
+                "file:///android_asset/" + "ta/a9.jpg",
+                "file:///android_asset/" + "ta/a10.jpg",
+                "file:///android_asset/" + "ta/a11.jpg",
+                "file:///android_asset/" + "ta/a12.jpg",
+                "file:///android_asset/" + "ta/a13.jpg",
+                "file:///android_asset/" + "ta/a14.jpg",
+                "file:///android_asset/" + "ta/a15.jpg",
+                "file:///android_asset/" + "ta/a16.jpg",
+                "file:///android_asset/" + "ta/a17.jpg",
+                "file:///android_asset/" + "ta/a18.jpg",
+                "file:///android_asset/" + "ta/a19.jpg",
+                "file:///android_asset/" + "ta/a20.jpg",
+                "file:///android_asset/" + "ta/a21.jpg",
+                "file:///android_asset/" + "ta/a22.jpg",
+                "file:///android_asset/" + "ta/a23.jpg",
+                "file:///android_asset/" + "ta/a24.jpg"
+        ) else {
+            for (i in name!!.indices) {
+                name!![i] = "file:///android_asset/".plus(inherenceCode).plus("/").plus(name!![i])
+                Log.d("NAmESNAmES", name!![i])
+            }
+        }
+        if (scale == null) scale = floatArrayOf(
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f,
+                1.5f
+        )
 
         thumbNail = inherenceCode.plus("/a00").plus(ext) /*"/tn/".plus(inherenceCode).plus(ext)*/
 
@@ -174,46 +237,7 @@ class PieceActivity: AppCompatActivity() {
             }
         })
 
-        var smalltnUrl = arrayOf(
-                "file:///android_asset/" + "ta/a1.jpg",
-                "file:///android_asset/" + "ta/a2.jpg",
-                "file:///android_asset/" + "ta/a3.jpg",
-                "file:///android_asset/" + "ta/a4.jpg",
-                "file:///android_asset/" + "ta/a5.jpg",
-                "file:///android_asset/" + "ta/a6.jpg",
-                "file:///android_asset/" + "ta/a7.jpg",
-                "file:///android_asset/" + "ta/a8.jpg",
-                "file:///android_asset/" + "ta/a9.jpg",
-                "file:///android_asset/" + "ta/a10.jpg",
-                "file:///android_asset/" + "ta/a11.jpg",
-                "file:///android_asset/" + "ta/a12.jpg",
-                "file:///android_asset/" + "ta/a13.jpg",
-                "file:///android_asset/" + "ta/a14.jpg",
-                "file:///android_asset/" + "ta/a15.jpg",
-                "file:///android_asset/" + "ta/a16.jpg",
-                "file:///android_asset/" + "ta/a17.jpg",
-                "file:///android_asset/" + "ta/a18.jpg",
-                "file:///android_asset/" + "ta/a19.jpg",
-                "file:///android_asset/" + "ta/a20.jpg",
-                "file:///android_asset/" + "ta/a21.jpg",
-                "file:///android_asset/" + "ta/a22.jpg",
-                "file:///android_asset/" + "ta/a23.jpg",
-                "file:///android_asset/" + "ta/a24.jpg"/*,
-                "file:///android_asset/" + "ta/a25.jpg",
-                "file:///android_asset/" + "ta/a26.jpg",
-                "file:///android_asset/" + "ta/a27.jpg",
-                "file:///android_asset/" + "ta/a28.jpg",
-                "file:///android_asset/" + "ta/a29.jpg",
-                "file:///android_asset/" + "ta/a30.jpg",
-                "file:///android_asset/" + "ta/a31.jpg",
-                "file:///android_asset/" + "ta/a32.jpg",
-                "file:///android_asset/" + "ta/a33.jpg",
-                "file:///android_asset/" + "ta/a34.jpg",
-                "file:///android_asset/" + "ta/a35.jpg",
-                "file:///android_asset/" + "ta/a36.jpg",
-                "file:///android_asset/" + "ta/a37.jpg"*/
-        )
-        pager_piece_preview.adapter = PreviewPagerAdapter(smalltnUrl)
+        pager_piece_preview.adapter = PreviewPagerAdapter(name!!)
         btn_piece_read.setOnClickListener { v ->
             val intent = Intent(applicationContext, ViewerActivity::class.java)
             startActivity(intent)
@@ -223,9 +247,5 @@ class PieceActivity: AppCompatActivity() {
 
     fun dpToPixel(dp: Int, context: Context): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).toInt()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 }

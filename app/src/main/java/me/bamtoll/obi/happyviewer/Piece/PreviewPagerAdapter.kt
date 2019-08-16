@@ -16,6 +16,7 @@ class PreviewPagerAdapter(smalltnUrl: Array<String>): PagerAdapter() {
     var mSmalltnUrl = smalltnUrl
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        Log.d("NDFSDFSDFAS", mSmalltnUrl.joinToString())
         val v = LayoutInflater.from(container.context).inflate(R.layout.layout_preview, container, false)
         val previewGrid = v.findViewById(R.id.layout_preview_grid) as GridLayout
         Log.d("pospos", position.toString())

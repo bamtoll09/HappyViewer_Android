@@ -1,13 +1,11 @@
 package me.bamtoll.obi.happyviewer.Gallery
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.util.JsonReader
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -25,8 +23,6 @@ import me.bamtoll.obi.happyviewer.MainActivity
 import me.bamtoll.obi.happyviewer.MainActivity.Companion.pf
 import java.io.*
 import java.lang.Exception
-import java.lang.StringBuilder
-import java.net.URL
 
 class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
@@ -155,23 +151,36 @@ class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): Recy
                     try {
                         val  inputStream:InputStream = activity.assets.open("ta/ta_list.json")
                         json = inputStream.bufferedReader().use{it.readText()}
-                        decodeData(json)
+                        val result = decodeData(json)
+                        val names = Array<String>(result.size, init = {
+                            result.keys.elementAt(it)
+                        })
+                        val scales = FloatArray(result.size, init = {
+                            result.values.elementAt(it)
+                        })
+
+                        Log.d("NAmENAmE", names.joinToString())
+
+                        val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.putExtra("inherence_code", mData[p1].inherenceCode)
+                        intent.putExtra("title", mData[p1].title)
+                        intent.putExtra("artist", mData[p1].infoItem.artist)
+                        intent.putExtra("character", mData[p1].infoItem.character)
+                        intent.putExtra("series", mData[p1].infoItem.series)
+                        intent.putExtra("type", mData[p1].infoItem.type)
+                        intent.putExtra("tag", mData[p1].infoItem.tag)
+                        intent.putExtra("bookmark", mData[p1].isBMarked)
+                        intent.putExtra("extension", mData[p1].ext)
+                        intent.putExtra("name", names)
+                        intent.putExtra("scale", scales)
+
+                        v.context.applicationContext.startActivity(intent)
                     } catch (ex: Exception) {
                         ex.printStackTrace()
-                    }
 
-                    val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("inherence_code", mData[p1].inherenceCode)
-                    intent.putExtra("title", mData[p1].title)
-                    intent.putExtra("artist", mData[p1].infoItem.artist)
-                    intent.putExtra("character", mData[p1].infoItem.character)
-                    intent.putExtra("series", mData[p1].infoItem.series)
-                    intent.putExtra("type", mData[p1].infoItem.type)
-                    intent.putExtra("tag", mData[p1].infoItem.tag)
-                    intent.putExtra("bookmark", mData[p1].isBMarked)
-                    intent.putExtra("extension", mData[p1].ext)
-                    v.context.applicationContext.startActivity(intent)
+                        Toast.makeText(activity.applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             /*VIEW_FOOTER -> {
@@ -237,10 +246,10 @@ class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): Recy
         return -1
     }
 
-    fun decodeData(json: String) {
+    fun decodeData(json: String): MutableMap<String, Float> {
         Log.d("jsonjsonjsonsjs", json)
 
-        val result = Klaxon()
+        val jsonResult = Klaxon()
                 .parseArray<Data>(json)
 
 //        val klaxon = Klaxon()
@@ -253,7 +262,14 @@ class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): Recy
 //                }
 //            }
 
-        Log.d("jsonjsonjsonsjs", result!![0].name)
+        Log.d("jsonjsonjsonsjs", jsonResult!![0].name)
+
+        var result: MutableMap<String, Float> = mutableMapOf()
+        for (i in jsonResult!!.indices) {
+            result.put(jsonResult!![i].name, jsonResult!![i].height / jsonResult!![i].width.toFloat())
+        }
+
+        return result
     }
 
     override fun getItemViewType(position: Int): Int {

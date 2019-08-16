@@ -3,6 +3,7 @@ package me.bamtoll.obi.happyviewer.Piece
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
