@@ -84,6 +84,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         loadingLayout = layout_progress
 
+        loadingLayout.setOnClickListener{}
+
         galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
         galleryRecycler.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 

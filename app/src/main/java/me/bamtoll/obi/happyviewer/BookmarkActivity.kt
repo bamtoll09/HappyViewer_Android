@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
+import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_gallery.*
@@ -33,6 +34,8 @@ class BookmarkActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         var HEIGHT: Int = 0
         var PAGE = 0
         var bool = false
+
+        lateinit var layout: RelativeLayout
     }
 
     @SuppressLint("RestrictedApi")
@@ -42,9 +45,13 @@ class BookmarkActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         layoutInflater.inflate(R.layout.layout_gallery, findViewById(R.id.layout_main),true)
         setSupportActionBar(toolbar)
 
-        fab.visibility = View.GONE
-
         pf = Preference("bookmarks", applicationContext)
+
+        layout = layout_progress
+
+        layout.setOnClickListener{}
+
+        fab.visibility = View.GONE
 
         /*val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -65,6 +72,7 @@ class BookmarkActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     true
             )
         })
+
         galleryAdapter = GalleryAdapter(items.toList(),this@BookmarkActivity)
         galleryRecycler.adapter = galleryAdapter
         galleryAdapter.notifyDataSetChanged()

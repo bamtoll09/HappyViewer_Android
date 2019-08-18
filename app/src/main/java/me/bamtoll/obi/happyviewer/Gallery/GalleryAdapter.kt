@@ -2,8 +2,6 @@ package me.bamtoll.obi.happyviewer.Gallery
 
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
-import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -18,8 +16,6 @@ import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
 import me.bamtoll.obi.happyviewer.*
 import me.bamtoll.obi.happyviewer.Customization.TagButton
-import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter.Companion.layoutParams
-import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter.Companion.tagLayoutWidth
 import me.bamtoll.obi.happyviewer.MainActivity.Companion.pf
 import java.io.*
 import java.lang.Exception
