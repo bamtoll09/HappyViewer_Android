@@ -8,7 +8,7 @@ import me.bamtoll.obi.happyviewer.MainActivity
 class ResizeTransformation: Transformation {
 
     companion object {
-        const val IMAGE_WIDTH = 500.0f
+        const val IMAGE_WIDTH = 600.0f
     }
 
     override fun key(): String {

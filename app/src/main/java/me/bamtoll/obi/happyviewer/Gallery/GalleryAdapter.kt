@@ -2,6 +2,7 @@ package me.bamtoll.obi.happyviewer.Gallery
 
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -15,11 +16,10 @@ import android.view.ViewTreeObserver
 import android.widget.*
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
-import me.bamtoll.obi.happyviewer.PieceActivity
-import me.bamtoll.obi.happyviewer.R
+import me.bamtoll.obi.happyviewer.*
 import me.bamtoll.obi.happyviewer.Customization.TagButton
-import me.bamtoll.obi.happyviewer.Data
-import me.bamtoll.obi.happyviewer.MainActivity
+import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter.Companion.layoutParams
+import me.bamtoll.obi.happyviewer.Gallery.GalleryAdapter.Companion.tagLayoutWidth
 import me.bamtoll.obi.happyviewer.MainActivity.Companion.pf
 import java.io.*
 import java.lang.Exception
@@ -147,40 +147,51 @@ class GalleryAdapter(data: List<GalleryItem>, activity: AppCompatActivity): Recy
                 p0.itemView.setOnClickListener { v ->
                     Log.d("AsDf", mData[p1].inherenceCode + " " + p1)
 
-                    var json: String = ""
-                    try {
-                        val  inputStream:InputStream = activity.assets.open("ta/ta_list.json")
-                        json = inputStream.bufferedReader().use{it.readText()}
-                        val result = decodeData(json)
-                        val names = Array<String>(result.size, init = {
-                            result.keys.elementAt(it)
-                        })
-                        val scales = FloatArray(result.size, init = {
-                            result.values.elementAt(it)
-                        })
-
-                        Log.d("NAmENAmE", names.joinToString())
-
-                        val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        intent.putExtra("inherence_code", mData[p1].inherenceCode)
-                        intent.putExtra("title", mData[p1].title)
-                        intent.putExtra("artist", mData[p1].infoItem.artist)
-                        intent.putExtra("character", mData[p1].infoItem.character)
-                        intent.putExtra("series", mData[p1].infoItem.series)
-                        intent.putExtra("type", mData[p1].infoItem.type)
-                        intent.putExtra("tag", mData[p1].infoItem.tag)
-                        intent.putExtra("bookmark", mData[p1].isBMarked)
-                        intent.putExtra("extension", mData[p1].ext)
-                        intent.putExtra("name", names)
-                        intent.putExtra("scale", scales)
-
-                        v.context.applicationContext.startActivity(intent)
-                    } catch (ex: Exception) {
-                        ex.printStackTrace()
-
-                        Toast.makeText(activity.applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    when (activity.title) {
+                        activity.resources.getString(R.string.app_name) -> MainActivity.loadingLayout.visibility = View.VISIBLE
+                        else -> Log.d("ttitle", "BBip")
                     }
+
+                    Thread(Runnable {
+                        run {
+                            var json: String = ""
+                            try {
+                                val  inputStream:InputStream = activity.assets.open("ta/ta_list.json")
+                                json = inputStream.bufferedReader().use{it.readText()}
+                                val result = decodeData(json)
+                                val names = Array<String>(result.size, init = {
+                                    result.keys.elementAt(it)
+                                })
+                                val scales = FloatArray(result.size, init = {
+                                    result.values.elementAt(it)
+                                })
+
+                                Log.d("NAmENAmE", names.joinToString())
+
+                                val intent = Intent(v.context.applicationContext, PieceActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                intent.putExtra("inherence_code", mData[p1].inherenceCode)
+                                intent.putExtra("title", mData[p1].title)
+                                intent.putExtra("artist", mData[p1].infoItem.artist)
+                                intent.putExtra("character", mData[p1].infoItem.character)
+                                intent.putExtra("series", mData[p1].infoItem.series)
+                                intent.putExtra("type", mData[p1].infoItem.type)
+                                intent.putExtra("tag", mData[p1].infoItem.tag)
+                                intent.putExtra("bookmark", mData[p1].isBMarked)
+                                intent.putExtra("extension", mData[p1].ext)
+                                intent.putExtra("name", names)
+                                Storage.scales = scales
+
+                                intent.putExtra("previous_layout", activity.title)
+
+                                v.context.applicationContext.startActivity(intent)
+                            } catch (ex: Exception) {
+                                ex.printStackTrace()
+
+                                Toast.makeText(activity.applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }).start()
                 }
             }
             /*VIEW_FOOTER -> {

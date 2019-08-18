@@ -1,7 +1,10 @@
 package me.bamtoll.obi.happyviewer.Piece
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Rect
 import android.support.v4.view.PagerAdapter
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +13,11 @@ import android.view.ViewTreeObserver
 import android.widget.GridLayout
 import me.bamtoll.obi.happyviewer.PieceActivity
 import me.bamtoll.obi.happyviewer.R
+import me.bamtoll.obi.happyviewer.ViewerActivity
 
-class PreviewPagerAdapter(smalltnUrl: Array<String>): PagerAdapter() {
+class PreviewPagerAdapter(smalltnUrl: Array<String>, activity: AppCompatActivity): PagerAdapter() {
 
+    private val activity = activity
     var mSmalltnUrl = smalltnUrl
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -27,13 +32,27 @@ class PreviewPagerAdapter(smalltnUrl: Array<String>): PagerAdapter() {
                 Log.d("WIDHEI", previewGrid.width.toString().plus(", ").plus(previewGrid.height))
                 PieceActivity.previewItemRect = Rect(0, 0, previewGrid.width / 5, previewGrid.height / 3)
 
+                var view: PreviewImageView
+
                 if ((position + 1) * 15 < mSmalltnUrl.size) {
                     for (i in IntRange(position * 15, position * 15 + 14)) {
-                        previewGrid.addView(PreviewImageView(container.context, mSmalltnUrl[i]))
+                        view = PreviewImageView(container.context, mSmalltnUrl[i])
+                        view.setOnClickListener { v ->
+                            val intent = Intent(activity.applicationContext, ViewerActivity::class.java)
+                            intent.putExtra("position", i)
+                            activity.startActivity(intent)
+                        }
+                        previewGrid.addView(view)
                     }
                 } else {
                     for (i in IntRange(0, mSmalltnUrl.size % 15 - 1)) {
-                        previewGrid.addView(PreviewImageView(container.context, mSmalltnUrl[i + (mSmalltnUrl.size / 15 * 15)]))
+                        view = PreviewImageView(container.context, mSmalltnUrl[i + (mSmalltnUrl.size / 15 * 15)])
+                        view.setOnClickListener { v ->
+                            val intent = Intent(activity.applicationContext, ViewerActivity::class.java)
+                            intent.putExtra("position", i)
+                            activity.startActivity(intent)
+                        }
+                        previewGrid.addView(view)
                     }
                 }
                 previewGrid.viewTreeObserver.removeOnGlobalLayoutListener(this)

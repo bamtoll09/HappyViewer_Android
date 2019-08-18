@@ -1,7 +1,10 @@
 package me.bamtoll.obi.happyviewer
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -24,6 +27,14 @@ class ViewerActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
     val PIECE_ENTRY = "https://hiyobi.me/data/"
     var showActionBar = 1
 
+    var inherenceCode: String? = null
+    var name: Array<String>? = null
+    var pos = -1
+
+    companion object{
+        lateinit var recyclerView: RecyclerView
+    }
+
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,23 +44,12 @@ class ViewerActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
 //        toolbar.alpha = 0f
 //        toolbar.background.alpha = 0
 //        toolbar.visibility = View.INVISIBLE
+        inherenceCode = intent.getStringExtra("inherence_code")
+        name = intent.getStringArrayExtra("name")
+        pos = intent.getIntExtra("position", -1)
 
-        fab.visibility = View.GONE
-
-        pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
-            override fun onFling(p0: Int, p1: Int): Boolean {
-                Log.d("SPEED", p0.toString() + "." + p1.toString())
-//                if (Math.abs(p1) <= 3000)
-//                    ViewerLayoutManager.EXTRA_SPACE_RANGE = 1.0f
-//                else
-//                    ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
-                ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1).toFloat()
-                Log.d("flingfling", "p0: ".plus(p0).plus(", p1: ").plus(p1))
-                return false
-            }
-        }
-        pieceRecycler.layoutManager = ViewerLayoutManager(this)
-        viewerAdapter = ViewerAdapter(listOf(
+        if (inherenceCode == null) inherenceCode = "ta"
+        if (name == null) name = arrayOf(
                 "file:///android_asset/" + "ta/a1.jpg",
                 "file:///android_asset/" + "ta/a2.jpg",
                 "file:///android_asset/" + "ta/a3.jpg",
@@ -73,22 +73,36 @@ class ViewerActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 "file:///android_asset/" + "ta/a21.jpg",
                 "file:///android_asset/" + "ta/a22.jpg",
                 "file:///android_asset/" + "ta/a23.jpg",
-                "file:///android_asset/" + "ta/a24.jpg"/*,
-                "file:///android_asset/" + "ta/a25.jpg",
-                "file:///android_asset/" + "ta/a26.jpg",
-                "file:///android_asset/" + "ta/a27.jpg",
-                "file:///android_asset/" + "ta/a28.jpg",
-                "file:///android_asset/" + "ta/a29.jpg",
-                "file:///android_asset/" + "ta/a30.jpg",
-                "file:///android_asset/" + "ta/a31.jpg",
-                "file:///android_asset/" + "ta/a32.jpg",
-                "file:///android_asset/" + "ta/a33.jpg",
-                "file:///android_asset/" + "ta/a34.jpg",
-                "file:///android_asset/" + "ta/a35.jpg",
-                "file:///android_asset/" + "ta/a36.jpg",
-                "file:///android_asset/" + "ta/a37.jpg"*/
-        ))
+                "file:///android_asset/" + "ta/a24.jpg"
+        ) else {
+            for (i in name!!.indices) {
+                name!![i] = "file:///android_asset/".plus(inherenceCode).plus("/").plus(name!![i])
+            }
+        }
+
+        recyclerView = pieceRecycler
+
+        fab.visibility = View.GONE
+
+        pieceRecycler.onFlingListener = object: RecyclerView.OnFlingListener() {
+            override fun onFling(p0: Int, p1: Int): Boolean {
+                Log.d("SPEED", p0.toString() + "." + p1.toString())
+//                if (Math.abs(p1) <= 3000)
+//                    ViewerLayoutManager.EXTRA_SPACE_RANGE = 1.0f
+//                else
+//                    ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1) / 3000.0f
+                ViewerLayoutManager.EXTRA_SPACE_RANGE = Math.abs(p1).toFloat()
+                Log.d("flingfling", "p0: ".plus(p0).plus(", p1: ").plus(p1))
+                return false
+            }
+        }
+
+        pieceRecycler.layoutManager = ViewerLayoutManager(this)
+        viewerAdapter = ViewerAdapter(name!!, pos)
         pieceRecycler.adapter = viewerAdapter
+        if (pos > -1) {
+            pieceRecycler.scrollToPosition(pos)
+        }
 
         // val INHERENCE_CODE = intent.extras.getString("inherence_code")
 

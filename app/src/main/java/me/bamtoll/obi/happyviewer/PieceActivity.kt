@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_piece.*
@@ -38,7 +39,9 @@ class PieceActivity: AppCompatActivity() {
     var isBMarked: Boolean = false
     var ext: String? = null
     var name: Array<String>? = null
-    var scale: FloatArray? = null
+    // var scale: FloatArray? = null
+
+    var prevLayout: String? = null
 
     var tagButtons: ArrayList<Button> = ArrayList()
 
@@ -60,6 +63,7 @@ class PieceActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_piece)
 //        layoutInflater.inflate(R.layout.layout_piece, findViewById(R.id.layout_main),true)
+        prevLayout = intent.getStringExtra("previous_layout")
 
         inherenceCode = intent.getStringExtra("inherence_code")
         title = intent.getStringExtra("title")
@@ -71,9 +75,9 @@ class PieceActivity: AppCompatActivity() {
         isBMarked = intent.getBooleanExtra("bookmark", false)
         ext = intent.getStringExtra("extension")
         name = intent.getStringArrayExtra("name")
-        scale = intent.getFloatArrayExtra("scale")
+        // scale = intent.getFloatArrayExtra("scale")
 
-        if (inherenceCode == null) inherenceCode = "/assets/ta/"
+        if (inherenceCode == null) inherenceCode = "ta"
         if (title == null) title = "평범한 8반 49화"
         if (artist == null) artist = "by. 영파카"
         if (character == null) character = "Character: 나유나"
@@ -112,7 +116,7 @@ class PieceActivity: AppCompatActivity() {
                 Log.d("NAmESNAmES", name!![i])
             }
         }
-        if (scale == null) scale = floatArrayOf(
+        /*if (scale == null) scale = floatArrayOf(
                 1.5f,
                 1.5f,
                 1.5f,
@@ -137,7 +141,7 @@ class PieceActivity: AppCompatActivity() {
                 1.5f,
                 1.5f,
                 1.5f
-        )
+        )*/
 
         thumbNail = inherenceCode.plus("/a00").plus(ext) /*"/tn/".plus(inherenceCode).plus(ext)*/
 
@@ -237,11 +241,19 @@ class PieceActivity: AppCompatActivity() {
             }
         })
 
-        pager_piece_preview.adapter = PreviewPagerAdapter(name!!)
+        pager_piece_preview.adapter = PreviewPagerAdapter(name!!, this)
         btn_piece_read.setOnClickListener { v ->
             val intent = Intent(applicationContext, ViewerActivity::class.java)
             startActivity(intent)
             finishAndRemoveTask()
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+
+        when (prevLayout) {
+            resources.getString(R.string.app_name) -> MainActivity.loadingLayout.visibility = View.GONE
         }
     }
 

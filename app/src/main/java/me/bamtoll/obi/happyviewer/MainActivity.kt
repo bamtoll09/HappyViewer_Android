@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.RelativeLayout
 import android.widget.Toast
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         lateinit var pf: Preference
 
         lateinit var galleryAdapter: GalleryAdapter
+        lateinit var loadingLayout: RelativeLayout
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +81,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         refreshLayout.setColorSchemeResources(R.color.red, R.color.green, R.color.blue)
         refreshLayout.setOnRefreshListener(this)
+
+        loadingLayout = layout_progress
 
         galleryRecycler.layoutManager = LinearLayoutManager(this) // it could attach recyclerview to layout (linearlayout style)
         galleryRecycler.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
